@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Skalenagryfie1.Content;
+using Skalenagryfie1.Content.States;
 
 namespace Skalenagryfie1
 {
@@ -18,6 +19,14 @@ namespace Skalenagryfie1
         Texture2D przyciskExit;
         SpriteFont poleInformacyjne;
 
+        private State _currentState;
+        private State _nextState;
+
+        public void ChangeState(State state)
+        {
+            _nextState = state;
+        }
+
         private List<Component> _gameComponents;
         
 
@@ -30,7 +39,7 @@ namespace Skalenagryfie1
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-
+            #region Stworzenie_pentatonik
             //STWORZENIE PENTATONIK MOLOWYCH
             var e_pent_mol = new Skala_pentatoniczna();
             var f_pent_mol = new Skala_pentatoniczna();
@@ -111,7 +120,7 @@ namespace Skalenagryfie1
             cis_pent_dur.wypelnij_skale("Cis", "Dis", "F", "Gis", "Ais");
             d_pent_dur.wypelnij_skale("D", "E", "Fis", "A", "H");
             dis_pent_dur.wypelnij_skale("Dis", "F", "G", "Ais", "C");
-
+            #endregion
 
         }
 
@@ -119,7 +128,6 @@ namespace Skalenagryfie1
         {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
-            Console.WriteLine("INICJALIZACJA");
             base.Initialize();
         }
 
@@ -127,11 +135,12 @@ namespace Skalenagryfie1
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             tytulStrony = Content.Load<SpriteFont>("galleryFont");
-            przyciskStart = Content.Load<Texture2D>("przyciskstart");
-            przyciskHowTo = Content.Load<Texture2D>("przyciskhowto");
-            przyciskExit = Content.Load<Texture2D>("przyciskexit");
+            //przyciskStart = Content.Load<Texture2D>("przyciskstart");
+            //przyciskHowTo = Content.Load<Texture2D>("przyciskhowto");
+            //przyciskExit = Content.Load<Texture2D>("przyciskexit");
+            _currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
 
-            var startButton = new Button(Content.Load<Texture2D>("przycisk"), Content.Load<SpriteFont>("buttonFont"))
+            /* var startButton = new Button(Content.Load<Texture2D>("przycisk"), Content.Load<SpriteFont>("buttonFont"))
             {
                 Position = new Vector2(320, 100),
                 Text = "Random"
@@ -181,18 +190,23 @@ namespace Skalenagryfie1
         {
             var randomcolour = new Random();
             _backgroundColor = new Color(randomcolour.Next(0,255), randomcolour.Next(0, 255), randomcolour.Next(0, 255));
-            Console.WriteLine("START");
+            Console.WriteLine("START");*/
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if(_nextState != null)
+            {
+                _currentState = _nextState;
+                _nextState = null;
+            }
 
-            // TODO: Add your update logic here
+            _currentState.Update(gameTime);
+            _currentState.PostUpdate(gameTime);
 
-            foreach (var component in _gameComponents)
-                component.Update(gameTime);
+            
+            //foreach (var component in _gameComponents)
+             //   component.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -201,16 +215,18 @@ namespace Skalenagryfie1
         {
             GraphicsDevice.Clear(_backgroundColor);
 
-            _spriteBatch.Begin();
-            _spriteBatch.DrawString(tytulStrony, "SKALE NA GRYFIE", new Vector2(210, 10), Color.White);
+            //_spriteBatch.Begin();
+            //_spriteBatch.DrawString(tytulStrony, "SKALE NA GRYFIE", new Vector2(210, 10), Color.White);
             //_spriteBatch.Draw(przyciskStart, new Vector2(320, 100), Color.White);
             //_spriteBatch.Draw(przyciskHowTo, new Vector2(320, 200), Color.White);
             //_spriteBatch.Draw(przyciskExit, new Vector2(320, 300), Color.White);
 
-            foreach (var component in _gameComponents)
-                component.Draw(gameTime, _spriteBatch);
+            //foreach (var component in _gameComponents)
+            //    component.Draw(gameTime, _spriteBatch);
 
-            _spriteBatch.End();
+            _currentState.Draw(gameTime, _spriteBatch);
+
+            //_spriteBatch.End();
 
             // TODO: Add your drawing code here
 

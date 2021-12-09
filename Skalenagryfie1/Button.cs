@@ -48,14 +48,14 @@ namespace Skalenagryfie1
 
         #region Metody
 
-        public Button(Texture2D buttontexture, SpriteFont buttonfont)
+        public Button(Texture2D buttontexture, SpriteFont buttonfont) //tworzy przycisk z teksturą, czcionką i kolorem czcionki
         {
             _texture = buttontexture;
             _font = buttonfont;
             PenColour = Color.Black;
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) //rysuje przycisk i opisuje funkcje hover
         {
             var colour = Color.White;
 
@@ -65,8 +65,8 @@ namespace Skalenagryfie1
                 spriteBatch.Draw(_texture, Rectangle, colour);
             }
             else spriteBatch.Draw(_texture, Rectangle, Color.White);
-
-            if (!string.IsNullOrEmpty(Text))
+             
+            if (!string.IsNullOrEmpty(Text)) //umieszcza tekst po srodku przycisku
             {
                 var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
                 var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2);
@@ -74,16 +74,16 @@ namespace Skalenagryfie1
             }
         }
 
-        public override void Update(GameTime gametime)
+        public override void Update(GameTime gametime) //caly czas sprawdza co sie dzieje z myszka 
         {
             _previousState = _currentMouse;
             _currentMouse = Mouse.GetState();
 
-            var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
+            var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1); //opisuje kursor jako prostokat 1x1 aby mozna bylo powiedziec jak koliduje z rzeczami na ekranie
 
             _isHovering = false;
 
-            if (mouseRectangle.Intersects(Rectangle))
+            if (mouseRectangle.Intersects(Rectangle)) //sprawdza czy myszka jest na przycisku
             {
                 _isHovering = true;
 
