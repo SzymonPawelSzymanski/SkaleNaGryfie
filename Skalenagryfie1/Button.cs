@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Input;
 
 namespace Skalenagryfie1
-{
+{   //komentarz testowy do GitHuba
     public class Button : Component
     {
 
