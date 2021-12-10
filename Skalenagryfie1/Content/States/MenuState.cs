@@ -9,26 +9,31 @@ namespace Skalenagryfie1.Content.States
 {
     public class MenuState : State //dziedziczy wszycho po klasie State (bastrakcyjnej ktora sluzy tylko do dziedziczenia)
     {
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
         private List<Component> _components;
-        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content) 
+        public SpriteFont tytulStrony;
+        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
+            var tytulStrony = _content.Load<SpriteFont>("galleryFont");
             var buttonTexture = _content.Load<Texture2D>("przycisk");
             var buttonFont = _content.Load<SpriteFont>("buttonfont");
+
             var newGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(320, 100),
+                Position = new Vector2(560, 300),
                 Text = "Nowa Gra"
             };
 
             var howtoGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(320, 200),
+                Position = new Vector2(560, 400),
                 Text = "Jak grac"
             };
 
             var quitGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(320, 300),
+                Position = new Vector2(560, 500),
                 Text = "Wyjdz z gry"
             };
 
@@ -47,7 +52,7 @@ namespace Skalenagryfie1.Content.States
 
         private void HowtoGameButton_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Tu bedzie strona instrukcji");
+            _game.ChangeState(new HowToState(_game, _graphicsDevice, _content));
         }
 
         private void NewGameButton_Click(object sender, EventArgs e)
@@ -61,12 +66,14 @@ namespace Skalenagryfie1.Content.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            //spriteBatch.Begin();
+            //tytul strony nie dziala\/
+            //spriteBatch.DrawString(tytulStrony, "SKALE NA GRYFIE", new Vector2(320,50), Color.White);
 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
 
-            spriteBatch.End();
+            //spriteBatch.End();
         }
 
         public override void PostUpdate(GameTime gameTime)

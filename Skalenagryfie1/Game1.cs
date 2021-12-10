@@ -33,9 +33,7 @@ namespace Skalenagryfie1
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 1280;  // set this value to the desired width of your window
-            _graphics.PreferredBackBufferHeight = 1024;   // set this value to the desired height of your window
-            _graphics.ApplyChanges();
+            
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
@@ -127,6 +125,9 @@ namespace Skalenagryfie1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            _graphics.PreferredBackBufferWidth = 1280;  // set this value to the desired width of your window
+            _graphics.PreferredBackBufferHeight = 1024;   // set this value to the desired height of your window
+            _graphics.ApplyChanges();
             IsMouseVisible = true;
             base.Initialize();
         }
@@ -215,8 +216,8 @@ namespace Skalenagryfie1
         {
             GraphicsDevice.Clear(_backgroundColor);
 
-            //_spriteBatch.Begin();
-            //_spriteBatch.DrawString(tytulStrony, "SKALE NA GRYFIE", new Vector2(210, 10), Color.White);
+            _spriteBatch.Begin();
+            _spriteBatch.DrawString(tytulStrony, "SKALE NA GRYFIE", new Vector2(370, 20), Color.White);
             //_spriteBatch.Draw(przyciskStart, new Vector2(320, 100), Color.White);
             //_spriteBatch.Draw(przyciskHowTo, new Vector2(320, 200), Color.White);
             //_spriteBatch.Draw(przyciskExit, new Vector2(320, 300), Color.White);
@@ -226,7 +227,7 @@ namespace Skalenagryfie1
 
             _currentState.Draw(gameTime, _spriteBatch);
 
-            //_spriteBatch.End();
+            _spriteBatch.End();
 
             // TODO: Add your drawing code here
 

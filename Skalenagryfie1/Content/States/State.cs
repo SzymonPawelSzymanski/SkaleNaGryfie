@@ -12,6 +12,7 @@ namespace Skalenagryfie1.Content.States
         #region Fields
 
         protected ContentManager _content; //zarzadza Contentem?
+        protected SpriteBatch _spriteBatch;
         protected GraphicsDevice _graphicsDevice; //no grafika?
         protected Game1 _game; //gra?
 
