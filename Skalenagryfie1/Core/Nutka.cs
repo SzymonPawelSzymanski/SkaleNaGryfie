@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace Skalenagryfie1
 {
@@ -46,8 +47,13 @@ namespace Skalenagryfie1
             fontNutki = nutafont;
             PenColour = Color.Black;
         }
+        internal override void LoadContent(ContentManager Content)
+        {
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        }
+
+
+        public override void Draw(SpriteBatch spriteBatch)
         {
             var colour = Color.White;
 
@@ -68,6 +74,13 @@ namespace Skalenagryfie1
 
         public override void Update(GameTime gametime)
         {
+            /*Stwórz początkową pozycje nutki - współrzędne
+            stwórz liste/tablice nazw pól (progów z nutami) na gryfie wraz z odpowiadającymi im prostokątami (hitboxami)
+            przy drag&dropie nut, po puszczeniu LPM aktualna pozycja nutki jest porównywana z tabelą współrzędnych
+            jeżeli nazwa nuty == nazwa pola to zostaw tam nutkę
+            jeżeli != to wróc nutkę do pozycji początkowej
+            (zrób warunek żeby nie zostawiać nut po całym stole)*/
+
             _previousState = _currentMouse;
             _currentMouse = Mouse.GetState();
 
@@ -76,7 +89,7 @@ namespace Skalenagryfie1
             _isHovering = false;
 
 
-            if (mouseRectangle.Intersects(nRectangle)) //sprawdza czy myszka jest na przycisku
+            if (mouseRectangle.Intersects(nRectangle)) //sprawdza czy myszka jest na nutce
             {
                 _isHovering = true;
 

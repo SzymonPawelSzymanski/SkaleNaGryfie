@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Skalenagryfie1
 {
-    public abstract class Component
+    internal abstract class Component
     {
-        public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
+        internal abstract void LoadContent(ContentManager Content);
+
+        public abstract void Draw(SpriteBatch spriteBatch);
 
         public abstract void Update(GameTime gametime);
     }

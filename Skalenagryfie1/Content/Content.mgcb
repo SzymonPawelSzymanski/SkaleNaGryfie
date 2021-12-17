@@ -13,28 +13,28 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin buttonfont.spritefont
+#begin Fonts/buttonfont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:buttonfont.spritefont
+/build:Fonts/buttonfont.spritefont
 
-#begin galleryFont.spritefont
+#begin Fonts/galleryFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:galleryFont.spritefont
+/build:Fonts/galleryFont.spritefont
 
-#begin nutkafont.spritefont
+#begin Fonts/nutkafont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:nutkafont.spritefont
+/build:Fonts/nutkafont.spritefont
 
-#begin przycisk.png
+#begin Tekstury/btn1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -44,7 +44,31 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:przycisk.png
+/build:Tekstury/btn1.png
+
+#begin Tekstury/btn2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tekstury/btn2.png
+
+#begin Tekstury/btn3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tekstury/btn3.png
 
 #begin Tekstury/gryfBasowy1000.png
 /importer:TextureImporter
@@ -93,6 +117,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Tekstury/guitarneck_2.png
+
+#begin Tekstury/przycisk.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tekstury/przycisk.png
 
 #begin Tekstury/tlonutki.png
 /importer:TextureImporter

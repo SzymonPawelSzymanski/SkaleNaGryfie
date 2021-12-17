@@ -5,34 +5,25 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Skalenagryfie1.Content;
 using Skalenagryfie1.Content.States;
+using Skalenagryfie1.Core;
+using Skalenagryfie1.Managers;
 
 namespace Skalenagryfie1
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        public static GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
         private Color _backgroundColor = new Color(new Vector3(0.145f, 0.149f, 0.145f)); //moj szary to new Color(new Vector3(0.145f, 0.149f, 0.145f))
         SpriteFont tytulStrony;
-        Texture2D przyciskStart;
-        Texture2D przyciskHowTo;
-        Texture2D przyciskExit;
-        SpriteFont poleInformacyjne;
-
-        private State _currentState;
-        private State _nextState;
-
-        public void ChangeState(State state)
-        {
-            _nextState = state;
-        }
+        private GameStateManager gsm;
 
         private List<Component> _gameComponents;
         
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);
             
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -125,21 +116,19 @@ namespace Skalenagryfie1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            _graphics.PreferredBackBufferWidth = 1280;  // set this value to the desired width of your window
-            _graphics.PreferredBackBufferHeight = 1024;   // set this value to the desired height of your window
-            _graphics.ApplyChanges();
+            graphics.PreferredBackBufferWidth = Data.ScreenW;  // set this value to the desired width of your window
+            graphics.PreferredBackBufferHeight = Data.ScreenH;   // set this value to the desired height of your window
+            graphics.ApplyChanges();
+            gsm = new GameStateManager();
             IsMouseVisible = true;
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-            tytulStrony = Content.Load<SpriteFont>("galleryFont");
-            //przyciskStart = Content.Load<Texture2D>("przyciskstart");
-            //przyciskHowTo = Content.Load<Texture2D>("przyciskhowto");
-            //przyciskExit = Content.Load<Texture2D>("przyciskexit");
-            _currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            tytulStrony = Content.Load<SpriteFont>("Fonts/galleryFont");
+            gsm.LoadContent(Content);
 
             /* var startButton = new Button(Content.Load<Texture2D>("przycisk"), Content.Load<SpriteFont>("buttonFont"))
             {
@@ -196,16 +185,12 @@ namespace Skalenagryfie1
 
         protected override void Update(GameTime gameTime)
         {
-            if(_nextState != null)
+            gsm.Update(gameTime);
+
+            if(Data.Exit == true)
             {
-                _currentState = _nextState;
-                _nextState = null;
+                Exit();
             }
-
-            _currentState.Update(gameTime);
-            _currentState.PostUpdate(gameTime);
-
-            
             //foreach (var component in _gameComponents)
              //   component.Update(gameTime);
 
@@ -216,18 +201,17 @@ namespace Skalenagryfie1
         {
             GraphicsDevice.Clear(_backgroundColor);
 
-            _spriteBatch.Begin();
-            _spriteBatch.DrawString(tytulStrony, "SKALE NA GRYFIE", new Vector2(370, 20), Color.White);
+            spriteBatch.Begin();
+            spriteBatch.DrawString(tytulStrony, "SKALE NA GRYFIE", new Vector2(370, 20), Color.White);
             //_spriteBatch.Draw(przyciskStart, new Vector2(320, 100), Color.White);
             //_spriteBatch.Draw(przyciskHowTo, new Vector2(320, 200), Color.White);
             //_spriteBatch.Draw(przyciskExit, new Vector2(320, 300), Color.White);
 
             //foreach (var component in _gameComponents)
             //    component.Draw(gameTime, _spriteBatch);
+            gsm.Draw(spriteBatch);
 
-            _currentState.Draw(gameTime, _spriteBatch);
-
-            _spriteBatch.End();
+            spriteBatch.End();
 
             // TODO: Add your drawing code here
 

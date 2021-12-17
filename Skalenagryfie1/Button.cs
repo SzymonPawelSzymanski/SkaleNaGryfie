@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace Skalenagryfie1
 {   //komentarz testowy do GitHuba
-    public class Button : Component
+    internal class Button : Component
     {
 
         #region Pola
@@ -55,7 +56,12 @@ namespace Skalenagryfie1
             PenColour = Color.Black;
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) //rysuje przycisk i opisuje funkcje hover
+        internal override void LoadContent(ContentManager Content) 
+        {
+
+        }
+
+        public override void Draw(SpriteBatch spriteBatch) //rysuje przycisk i opisuje funkcje hover
         {
             var colour = Color.White;
 

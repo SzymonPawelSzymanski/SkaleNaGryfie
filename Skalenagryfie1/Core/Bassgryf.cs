@@ -9,7 +9,7 @@ using Skalenagryfie1.Content.States;
 
 namespace Skalenagryfie1
 {
-    public class Bassgryf : Component
+    internal class Bassgryf : Component
     {
         private Texture2D teksturaGryfu;
 
@@ -28,7 +28,12 @@ namespace Skalenagryfie1
             }
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        internal override void LoadContent(ContentManager Content)
+        {
+
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(teksturaGryfu, gRectangle, Color.White);
         }
