@@ -130,57 +130,7 @@ namespace Skalenagryfie1
             tytulStrony = Content.Load<SpriteFont>("Fonts/galleryFont");
             gsm.LoadContent(Content);
 
-            /* var startButton = new Button(Content.Load<Texture2D>("przycisk"), Content.Load<SpriteFont>("buttonFont"))
-            {
-                Position = new Vector2(320, 100),
-                Text = "Random"
-            };
-
-            startButton.Click += StartButton_Click;
-
-            var howtoButton = new Button(Content.Load<Texture2D>("przycisk"), Content.Load<SpriteFont>("buttonFont"))
-            {
-                Position = new Vector2(320, 200),
-                Text = "How To"
-            };
-
-            howtoButton.Click += HowtoButton_Click;
-
-            var quitButton = new Button(Content.Load<Texture2D>("przycisk"), Content.Load<SpriteFont>("buttonFont"))
-            {
-                Position = new Vector2(320, 300),
-                Text = "Quit"
-            };
-
-            quitButton.Click += QuitButton_Click;
-
-            _gameComponents = new List<Component>()
-            {
-                startButton,
-                howtoButton,
-                quitButton
-            };
-
-            // TODO: use this.Content to load your game content here
-        }
-
-        private void HowtoButton_Click(object sender, EventArgs e)
-        {
-            var randomcolour = new Random();
-            _backgroundColor = new Color(randomcolour.Next(0, 255), randomcolour.Next(0, 255), randomcolour.Next(0, 255));
-            Console.WriteLine("HOW TO");
-        }
-
-        private void QuitButton_Click(object sender, EventArgs e)
-        {
-            Exit();
-        }
-
-        private void StartButton_Click(object sender, EventArgs e)
-        {
-            var randomcolour = new Random();
-            _backgroundColor = new Color(randomcolour.Next(0,255), randomcolour.Next(0, 255), randomcolour.Next(0, 255));
-            Console.WriteLine("START");*/
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -191,9 +141,7 @@ namespace Skalenagryfie1
             {
                 Exit();
             }
-            //foreach (var component in _gameComponents)
-             //   component.Update(gameTime);
-
+            
             base.Update(gameTime);
         }
 
@@ -203,12 +151,6 @@ namespace Skalenagryfie1
 
             spriteBatch.Begin();
             spriteBatch.DrawString(tytulStrony, "SKALE NA GRYFIE", new Vector2(370, 20), Color.White);
-            //_spriteBatch.Draw(przyciskStart, new Vector2(320, 100), Color.White);
-            //_spriteBatch.Draw(przyciskHowTo, new Vector2(320, 200), Color.White);
-            //_spriteBatch.Draw(przyciskExit, new Vector2(320, 300), Color.White);
-
-            //foreach (var component in _gameComponents)
-            //    component.Draw(gameTime, _spriteBatch);
             gsm.Draw(spriteBatch);
 
             spriteBatch.End();

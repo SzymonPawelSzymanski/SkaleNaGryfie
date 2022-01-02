@@ -9,9 +9,9 @@ namespace Skalenagryfie1.Content
         //DUR - MAJOR ----- MOL - MINOR
         public string nazwa_skali = " ";
         public int ilosc_nut = 5;
-        public string[] tab_nut = new string[5];
+        public String[] tab_nut = new String[5];
 
-        public void wyswietl_skale_pion(string[] tab)
+        public void wyswietl_skale_pion(String[] tab)
         {
             int i = 0;
             for (i = 0; i < tab.Length; i++)
@@ -19,7 +19,7 @@ namespace Skalenagryfie1.Content
                 Console.WriteLine("Nuta nr " + i + " w skali " + nazwa_skali + " to " + tab_nut[i]);
             }
         }
-        public void wyswietl_skale_poziom(string[] tab)
+        public void wyswietl_skale_poziom(String[] tab)
         {
             Console.WriteLine("Nuty w skali " + nazwa_skali + " to " + tab_nut[0] + " " + tab_nut[1] + " " + tab_nut[2] + " " + tab_nut[3] + " " + tab_nut[4] + ".");
         }

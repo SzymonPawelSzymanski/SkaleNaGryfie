@@ -34,57 +34,6 @@ namespace Skalenagryfie1.Content.States
             }
         }
 
-        //public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
-        //{
-            //var tytulStrony = content.Load<SpriteFont>("galleryFont");
-            //var buttonTexture = content.Load<Texture2D>("przycisk");
-            // var buttonFont = content.Load<SpriteFont>("buttonfont");
-
-            /*var newGameButton = new Button(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(560, 300),
-                Text = "Nowa Gra"
-            };
-
-            var howtoGameButton = new Button(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(560, 400),
-                Text = "Jak grac"
-            };
-
-            var quitGameButton = new Button(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(560, 500),
-                Text = "Wyjdz z gry"
-            };
-
-
-            newGameButton.Click += NewGameButton_Click;
-            howtoGameButton.Click += HowtoGameButton_Click;
-            quitGameButton.Click += QuitGameButton_Click;
-
-            _components = new List<Component>()
-            {
-                newGameButton,
-                howtoGameButton,
-                quitGameButton
-            };*/
-        //}
-
-        /*private void HowtoGameButton_Click(object sender, EventArgs e)
-        {
-            _game.ChangeState(new HowToState(_game, graphicsDevice, content));
-        }
-
-        private void NewGameButton_Click(object sender, EventArgs e)
-        {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
-        }
-        private void QuitGameButton_Click(object sender, EventArgs e)
-        {
-            _game.Exit();
-        } */
-
         public override void Update(GameTime gameTime)
         {
             oldMs = ms;
@@ -104,19 +53,12 @@ namespace Skalenagryfie1.Content.States
                 Data.Exit = true; ;
             }
 
-            //foreach (var component in _components)
-            //   component.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Begin();
-            //tytul strony nie dziala\/
-            //spriteBatch.DrawString(tytulStrony, "SKALE NA GRYFIE", new Vector2(320,50), Color.White);
-
             for (int i = 0; i < btns.Length; i++)
             {
-                spriteBatch.Draw(teksturaGryfu, new Rectangle(1, 1, teksturaGryfu.Width, teksturaGryfu.Height), Color.White);
                 spriteBatch.Draw(btns[i], btnRects[i], Color.White);
                 if (msRect.Intersects(btnRects[i]))
                 {

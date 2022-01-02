@@ -34,6 +34,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/nutkafont.spritefont
 
+#begin Fonts/skalafont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/skalafont.spritefont
+
 #begin Tekstury/btn1.png
 /importer:TextureImporter
 /processor:TextureProcessor
