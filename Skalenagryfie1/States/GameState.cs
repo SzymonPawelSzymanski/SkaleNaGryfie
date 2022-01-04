@@ -15,22 +15,24 @@ namespace Skalenagryfie1.Content.States
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private static System.Timers.Timer aTimer;
-        private DateTime czas;
+        private double timer = 0;
+        private String czas;
         public SpriteFont tytulStrony;
         private MouseState ms, oldMs;
         private Rectangle msRect;
         private Texture2D teksturaGryfu;
         private Texture2D teksturaNuty;
         private Texture2D teksturaBoxa;
+        private Texture2D wongamescreen;
         private SpriteFont fontNuty;
         private SpriteFont fontSkali;
         private String nazwaSkali;
         private int los;
         private int los_2;
         private int wynik = 0;
-        private int wynik_mnoznik = 1;
-        private int zajety_kursor = 0;
+        private int wygrana_gra = 0;
+        private bool wygrana_bool;
+        //private int zajety_kursor = 0;
         private Random rand = new Random();
         const int INCREMENT = 130;
         const int INCREMENT_N = 70;
@@ -47,6 +49,7 @@ namespace Skalenagryfie1.Content.States
         private Color kolornuty = Color.White;
         private Color[] kolNut = new Color[MAX_NOTES];
         private String[] rozwNuty =  new String[MAX_NOTES];
+        private bool[] boolNuty = new bool[MAX_NOTES];
         private Rectangle[] interRects = new Rectangle[MAX_NOTES];
         private Skala_pentatoniczna[] molPent = new Skala_pentatoniczna[MAX_SCALES];
         private Skala_pentatoniczna[] durPent = new Skala_pentatoniczna[MAX_SCALES];
@@ -64,11 +67,9 @@ namespace Skalenagryfie1.Content.States
 
         internal override void LoadContent(ContentManager Content)
         {
-            aTimer = new System.Timers.Timer(1);
-            aTimer.Start();
-
-
+            
             teksturaGryfu = Content.Load<Texture2D>("Tekstury/rysunek_gryf_1");
+            wongamescreen = Content.Load<Texture2D>("Tekstury/wongamescreen");
             teksturaNuty = Content.Load<Texture2D>("Tekstury/tlonutki40");
             teksturaBoxa = Content.Load<Texture2D>("Tekstury/pudelko_nut_2");
             fontNuty = Content.Load<SpriteFont>("Fonts/nutkafont");
@@ -254,10 +255,12 @@ namespace Skalenagryfie1.Content.States
 
         public override void Update(GameTime gameTime)
         {
-            czas = DateTime.Now;
+            if (wygrana_bool == false) {timer += gameTime.ElapsedGameTime.TotalSeconds; }
+            czas = Math.Ceiling(timer).ToString();
             oldMs = ms;
             ms = Mouse.GetState();
             msRect = new Rectangle(ms.X, ms.Y, 1, 1);
+            //wynik -= (int)(Math.Ceiling(timer)/60);
 
             //if (ms.LeftButton == ButtonState.Pressed)
             //{
@@ -284,11 +287,10 @@ namespace Skalenagryfie1.Content.States
             for (int i = 0; i < nuty.Length; i++)
             {
                 kolejnoscnuta = nutyText[i];
-                if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(nutyRects[i]) && zajety_kursor!= 1 && trzymana_nuta != rozwNuty[i])
+                if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(nutyRects[i]) && trzymana_nuta != rozwNuty[i])
                 {
                     if (rozwNuty[i] != nutyText[i])
                     {
-                        zajety_kursor = 1;
                         kolNut[i] = Color.White;
                         trzymana_nuta = nutyText[i];
                         nutyRects[i].X = ms.X - (nutyRects[i].Width / 2);
@@ -297,21 +299,28 @@ namespace Skalenagryfie1.Content.States
                 }
                 else
                 {
-                    zajety_kursor = 0;
                 }
 
                 //for(int j = 0; j < 5; j++) { 
                     if (ms.LeftButton == ButtonState.Released && nutyRects[i].Intersects(interRects[i]) && trzymana_nuta == nutyText[i] && trzymana_nuta != rozwNuty[i])
                     {
-                        if (rozwNuty[i] != nutyText[i]){
-                            rozwNuty[i] = nutyText[i];
-                            kolNut[i] = Color.LimeGreen;
-                            nutyRects[i].X = interRects[i].X + interRects[i].Width / 2 - nutyRects[i].Width / 2;
-                            nutyRects[i].Y = interRects[i].Y + interRects[i].Height / 2 - nutyRects[i].Height / 2;
-                        }
                         
+                            if (rozwNuty[i] != nutyText[i])
+                            {
+                                if (boolNuty[i] == false) 
+                                    {   wynik += 100; 
+                                        wygrana_gra += 1;}
+
+                                    rozwNuty[i] = nutyText[i];
+                                    boolNuty[i] = true;
+                                    kolNut[i] = Color.LimeGreen;
+                                    nutyRects[i].X = interRects[i].X + interRects[i].Width / 2 - nutyRects[i].Width / 2;
+                                    nutyRects[i].Y = interRects[i].Y + interRects[i].Height / 2 - nutyRects[i].Height / 2;
+                            }
                         
-                    }
+
+
+                }
                     /*s
                     else if(ms.LeftButton == ButtonState.Released && trzymana_nuta != nutyText[i])
                     {
@@ -328,22 +337,18 @@ namespace Skalenagryfie1.Content.States
             spriteBatch.Draw(teksturaGryfu, new Rectangle(35, 150, teksturaGryfu.Width, teksturaGryfu.Height), Color.White);
             spriteBatch.Draw(teksturaBoxa, new Rectangle(35, 550, teksturaBoxa.Width, teksturaBoxa.Height), Color.White);
             spriteBatch.Draw(btns[2], btnRects[2], Color.White);
-            spriteBatch.DrawString(fontSkali, nazwaSkali, new Vector2(400,100), Color.White);
-            spriteBatch.DrawString(fontSkali, trzymana_nuta, new Vector2(400, 200), Color.White);
-            //spriteBatch.DrawString(fontSkali, kolejnoscnuta, new Vector2(700, 200), Color.White);
-            spriteBatch.DrawString(fontSkali, "Wynik: " + wynik, new Vector2(1000, 200), Color.White);
-            spriteBatch.DrawString(fontSkali, "Zajety kursor: " + zajety_kursor.ToString(), new Vector2(1000, 300), Color.White);
+            //spriteBatch.DrawString(fontSkali,"Uzupelnij: ", new Vector2(430,100), Color.White);
+            spriteBatch.DrawString(fontSkali, nazwaSkali, new Vector2(430,100), Color.White);
+            spriteBatch.DrawString(fontSkali, "pozycja #1", new Vector2(550,140), Color.White);
+            //spriteBatch.DrawString(fontSkali, trzymana_nuta, new Vector2(400, 200), Color.White);
+            spriteBatch.DrawString(fontSkali, "Czas gry: " + czas + "s", new Vector2(1000, 140), Color.White);
+            spriteBatch.DrawString(fontSkali, "Wynik: " + wynik, new Vector2(1000, 100), Color.White);
+            //spriteBatch.DrawString(fontSkali, "Zajety kursor: " + zajety_kursor.ToString(), new Vector2(1000, 300), Color.White);
             //spriteBatch.DrawString(fontSkali, czas.ToString(), new Vector2(400, 200), Color.White);
             //spriteBatch.Draw(teksturaGryfu, hitboxTest, Color.White);
 
-            for (int i = 0; i < MAX_NOTES; i++)
-            {
-                if(rozwNuty[i] != null)
-                {
-                    wynik = 100;
-                    
-                }
-            }
+               
+            
 
             if (msRect.Intersects(btnRects[2]))
             {
@@ -360,6 +365,22 @@ namespace Skalenagryfie1.Content.States
                     spriteBatch.Draw(nuty[i], nutyRects[i], Color.Gray);
                     spriteBatch.DrawString(fontNuty, nutyText[i], new Vector2(nutyRects[i].X + nuty[i].Width/4, nutyRects[i].Y + nuty[i].Height/5), Color.Gray);
                 }
+            }
+
+          
+            if (wygrana_gra == 5)
+            {
+                int increment_3 = 52;
+                wygrana_bool = true;
+                spriteBatch.Draw(wongamescreen, new Rectangle(240, 100, wongamescreen.Width, wongamescreen.Height), Color.White);
+                spriteBatch.DrawString(fontSkali, nazwaSkali, new Vector2(430, 250), Color.White);
+                spriteBatch.DrawString(fontSkali, wynik.ToString() + " pkt", new Vector2(643, 372), Color.White);
+                spriteBatch.DrawString(fontSkali, czas.ToString() + "s", new Vector2(620, 425), Color.White);
+                spriteBatch.DrawString(fontSkali, nutyText[0], new Vector2(640, 527 + increment_3*0), Color.White);
+                spriteBatch.DrawString(fontSkali, nutyText[1], new Vector2(640, 525 + increment_3*1), Color.White);
+                spriteBatch.DrawString(fontSkali, nutyText[2], new Vector2(640, 524 + increment_3*2), Color.White);
+                spriteBatch.DrawString(fontSkali, nutyText[3], new Vector2(640, 524 + increment_3*3), Color.White);
+                spriteBatch.DrawString(fontSkali, nutyText[4], new Vector2(640, 521 + increment_3*4), Color.White);
             }
         }
     }
