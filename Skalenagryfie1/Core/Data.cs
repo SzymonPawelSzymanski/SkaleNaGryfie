@@ -7,7 +7,7 @@ namespace Skalenagryfie1.Core
     public static class Data
     {
         public static int ScreenW { get; set; } = 1280;
-        public static int ScreenH { get; set; } = 1024;
+        public static int ScreenH { get; set; } = 980;
         public static bool Exit { get; set; } = false;
 
         public enum States {Menu, Game, Howto2}

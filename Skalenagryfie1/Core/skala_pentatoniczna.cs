@@ -9,7 +9,10 @@ namespace Skalenagryfie1.Content
         //DUR - MAJOR ----- MOL - MINOR
         public string nazwa_skali = " ";
         public int ilosc_nut = 5;
+        const int wiersze = 5;
+        const int kolumny = 4;
         public String[] tab_nut = new String[5];
+        public int[,] tab_inf = new int[wiersze , kolumny];
 
         public void wyswietl_skale_pion(String[] tab)
         {
@@ -30,6 +33,14 @@ namespace Skalenagryfie1.Content
             tab_nut[2] = kwarta;
             tab_nut[3] = kwinta;
             tab_nut[4] = septyma;
+        }
+
+        public void wypelnij_inf(int indeks, int lx, int ly, int width, int height)
+        {
+            tab_inf[indeks-1, 0] = lx;
+            tab_inf[indeks-1, 1] = ly;
+            tab_inf[indeks-1, 2] = width;
+            tab_inf[indeks-1, 3] = height;
         }
     }
 }

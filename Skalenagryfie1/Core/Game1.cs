@@ -27,9 +27,10 @@ namespace Skalenagryfie1
             
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
+            
             #region Stworzenie_pentatonik
             //STWORZENIE PENTATONIK MOLOWYCH
+            /*
             var e_pent_mol = new Skala_pentatoniczna();
             var f_pent_mol = new Skala_pentatoniczna();
             var fis_pent_mol = new Skala_pentatoniczna();
@@ -109,6 +110,7 @@ namespace Skalenagryfie1
             cis_pent_dur.wypelnij_skale("Cis", "Dis", "F", "Gis", "Ais");
             d_pent_dur.wypelnij_skale("D", "E", "Fis", "A", "H");
             dis_pent_dur.wypelnij_skale("Dis", "F", "G", "Ais", "C");
+            */
             #endregion
 
         }

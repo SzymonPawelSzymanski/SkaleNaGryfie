@@ -22,12 +22,18 @@ namespace Skalenagryfie1.Content.States
         private Rectangle msRect;
         private Texture2D teksturaGryfu;
         private Texture2D teksturaNuty;
+        private Texture2D teksturaBoxa;
         private SpriteFont fontNuty;
         private SpriteFont fontSkali;
         private String nazwaSkali;
         private int los;
         private int los_2;
+        private int wynik = 0;
+        private int wynik_mnoznik = 1;
+        private int zajety_kursor = 0;
         private Random rand = new Random();
+        const int INCREMENT = 130;
+        const int INCREMENT_N = 70;
         private const int MAX_BTNS = 3;
         private const int MAX_NOTES = 5;
         private const int MAX_SCALES = 12;
@@ -36,8 +42,15 @@ namespace Skalenagryfie1.Content.States
         private Texture2D[] nuty = new Texture2D[MAX_NOTES];
         private Rectangle[] nutyRects = new Rectangle[MAX_NOTES];
         private String[] nutyText = new String[MAX_NOTES];
+        private String trzymana_nuta = "NIC YET";
+        private String kolejnoscnuta = "NIC YET";
+        private Color kolornuty = Color.White;
+        private Color[] kolNut = new Color[MAX_NOTES];
+        private String[] rozwNuty =  new String[MAX_NOTES];
+        private Rectangle[] interRects = new Rectangle[MAX_NOTES];
         private Skala_pentatoniczna[] molPent = new Skala_pentatoniczna[MAX_SCALES];
         private Skala_pentatoniczna[] durPent = new Skala_pentatoniczna[MAX_SCALES];
+        private Skala_pentatoniczna obecna_skala;
         private Rectangle hitboxTest;
         /*
          * 1. Ogarnij timer
@@ -55,11 +68,11 @@ namespace Skalenagryfie1.Content.States
             aTimer.Start();
 
 
-            teksturaGryfu = Content.Load<Texture2D>("Tekstury/gryfBasowy1000");
-            teksturaNuty = Content.Load<Texture2D>("Tekstury/tlonutki30");
+            teksturaGryfu = Content.Load<Texture2D>("Tekstury/rysunek_gryf_1");
+            teksturaNuty = Content.Load<Texture2D>("Tekstury/tlonutki40");
+            teksturaBoxa = Content.Load<Texture2D>("Tekstury/pudelko_nut_2");
             fontNuty = Content.Load<SpriteFont>("Fonts/nutkafont");
             fontSkali = Content.Load<SpriteFont>("Fonts/skalafont");
-
             hitboxTest = new Rectangle(10, 10, 100, 100);
 
             #region Stworzenie_pentatonik
@@ -173,38 +186,70 @@ namespace Skalenagryfie1.Content.States
             durPent[11] = dis_pent_dur;
             #endregion
 
-            los = rand.Next(2);
-            los_2 = rand.Next(12);
+            #region Wypelnienie wspolrzednych i rozmiarow hitboxow
+
+            e_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
+            e_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
+            e_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
+            e_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
+            e_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+
+            #endregion
+
+            #region Wypelnienie kolorow nut
+            kolNut[0] = Color.White;
+            kolNut[1] = Color.White;
+            kolNut[2] = Color.White;
+            kolNut[3] = Color.White;
+            kolNut[4] = Color.White;
+            #endregion
+
+            //los = rand.Next(2);
+            //los_2 = rand.Next(12);
+
+            los = 0;
+            los_2 = 0;
 
 
-            const int INCREMENT = 130;
-            const int INCREMENT_N = 70;
+
             for (int i = 0; i < btns.Length; i++)
             {
                 btns[i] = Content.Load<Texture2D>($"Tekstury/btn{i + 1}");
-                btnRects[i] = new Rectangle(1060, 300 + INCREMENT * i, btns[i].Width, btns[i].Height);
+                btnRects[i] = new Rectangle(1060, 600 + INCREMENT * i, btns[i].Width, btns[i].Height);
             }
 
             if (los == 0)
             {
+                obecna_skala = molPent[los_2];
                 nazwaSkali = molPent[los_2].nazwa_skali;
                 for (int i = 0; i < nuty.Length; i++)
                 {
-                    nuty[i] = Content.Load<Texture2D>("Tekstury/tlonutki25");
-                    nutyRects[i] = new Rectangle(160 + INCREMENT_N * i, 500, nuty[i].Width, nuty[i].Height);
+                    nuty[i] = Content.Load<Texture2D>("Tekstury/tlonutki40");
+                    nutyRects[i] = new Rectangle(120 + INCREMENT_N * i, 800, nuty[i].Width, nuty[i].Height);
                     nutyText[i] = molPent[los_2].tab_nut[i];
                 }
             }
             else if (los == 1)
             {
+                obecna_skala = durPent[los_2];
                 nazwaSkali = durPent[los_2].nazwa_skali;
                 for (int i = 0; i < nuty.Length; i++)
                 {
-                    nuty[i] = Content.Load<Texture2D>("Tekstury/tlonutki25");
-                    nutyRects[i] = new Rectangle(160 + INCREMENT_N * i, 500, nuty[i].Width, nuty[i].Height);
+                    nuty[i] = Content.Load<Texture2D>("Tekstury/tlonutki40");
+                    nutyRects[i] = new Rectangle(120 + INCREMENT_N * i, 800, nuty[i].Width, nuty[i].Height);
                     nutyText[i] = durPent[los_2].tab_nut[i];
                 }
             }
+
+            #region Wczytanie wsporlzednych hitboxow
+
+            for (int i = 0; i < 5; i++)
+            {
+                interRects[i] = new Rectangle(obecna_skala.tab_inf[i, 0], obecna_skala.tab_inf[i, 1], obecna_skala.tab_inf[i, 2], obecna_skala.tab_inf[i, 3]);
+            }
+
+            #endregion
+
         }
 
         public override void Update(GameTime gameTime)
@@ -213,6 +258,15 @@ namespace Skalenagryfie1.Content.States
             oldMs = ms;
             ms = Mouse.GetState();
             msRect = new Rectangle(ms.X, ms.Y, 1, 1);
+
+            //if (ms.LeftButton == ButtonState.Pressed)
+            //{
+            //    zajety_kursor = 1;
+            //}
+            //else
+            //{
+            //    zajety_kursor = 0;
+            //}
 
             if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[0]))
             {
@@ -229,28 +283,67 @@ namespace Skalenagryfie1.Content.States
 
             for (int i = 0; i < nuty.Length; i++)
             {
-                if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(nutyRects[i]))
+                kolejnoscnuta = nutyText[i];
+                if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(nutyRects[i]) && zajety_kursor!= 1 && trzymana_nuta != rozwNuty[i])
                 {
-                    nutyRects[i].X = ms.X - (nutyRects[i].Width / 2);
-                    nutyRects[i].Y = ms.Y - (nutyRects[i].Height / 2);
+                    if (rozwNuty[i] != nutyText[i])
+                    {
+                        zajety_kursor = 1;
+                        kolNut[i] = Color.White;
+                        trzymana_nuta = nutyText[i];
+                        nutyRects[i].X = ms.X - (nutyRects[i].Width / 2);
+                        nutyRects[i].Y = ms.Y - (nutyRects[i].Height / 2);
+                    }
+                }
+                else
+                {
+                    zajety_kursor = 0;
                 }
 
-                if (ms.LeftButton == ButtonState.Released && nutyRects[i].Intersects(hitboxTest))
-                {
-                    nutyRects[i].X = hitboxTest.X + hitboxTest.Width / 2 - nutyRects[i].Width / 2;
-                    nutyRects[i].Y = hitboxTest.Y + hitboxTest.Height / 2 - nutyRects[i].Height / 2;
-                }
+                //for(int j = 0; j < 5; j++) { 
+                    if (ms.LeftButton == ButtonState.Released && nutyRects[i].Intersects(interRects[i]) && trzymana_nuta == nutyText[i] && trzymana_nuta != rozwNuty[i])
+                    {
+                        if (rozwNuty[i] != nutyText[i]){
+                            rozwNuty[i] = nutyText[i];
+                            kolNut[i] = Color.LimeGreen;
+                            nutyRects[i].X = interRects[i].X + interRects[i].Width / 2 - nutyRects[i].Width / 2;
+                            nutyRects[i].Y = interRects[i].Y + interRects[i].Height / 2 - nutyRects[i].Height / 2;
+                        }
+                        
+                        
+                    }
+                    /*s
+                    else if(ms.LeftButton == ButtonState.Released && trzymana_nuta != nutyText[i])
+                    {
+                        nutyRects[i].X = 120 + INCREMENT_N * i;
+                        nutyRects[i].Y = 800;
+                    }
+                    */
+                //}
             }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(teksturaGryfu, new Rectangle(100, 300, teksturaGryfu.Width, teksturaGryfu.Height), Color.White);
+            spriteBatch.Draw(teksturaGryfu, new Rectangle(35, 150, teksturaGryfu.Width, teksturaGryfu.Height), Color.White);
+            spriteBatch.Draw(teksturaBoxa, new Rectangle(35, 550, teksturaBoxa.Width, teksturaBoxa.Height), Color.White);
             spriteBatch.Draw(btns[2], btnRects[2], Color.White);
             spriteBatch.DrawString(fontSkali, nazwaSkali, new Vector2(400,100), Color.White);
+            spriteBatch.DrawString(fontSkali, trzymana_nuta, new Vector2(400, 200), Color.White);
+            //spriteBatch.DrawString(fontSkali, kolejnoscnuta, new Vector2(700, 200), Color.White);
+            spriteBatch.DrawString(fontSkali, "Wynik: " + wynik, new Vector2(1000, 200), Color.White);
+            spriteBatch.DrawString(fontSkali, "Zajety kursor: " + zajety_kursor.ToString(), new Vector2(1000, 300), Color.White);
             //spriteBatch.DrawString(fontSkali, czas.ToString(), new Vector2(400, 200), Color.White);
-            spriteBatch.Draw(teksturaGryfu, hitboxTest, Color.White);
+            //spriteBatch.Draw(teksturaGryfu, hitboxTest, Color.White);
 
+            for (int i = 0; i < MAX_NOTES; i++)
+            {
+                if(rozwNuty[i] != null)
+                {
+                    wynik = 100;
+                    
+                }
+            }
 
             if (msRect.Intersects(btnRects[2]))
             {
@@ -259,7 +352,7 @@ namespace Skalenagryfie1.Content.States
 
             for (int i = 0; i < nuty.Length; i++)
             {
-                spriteBatch.Draw(nuty[i], nutyRects[i], Color.White);
+                spriteBatch.Draw(nuty[i], nutyRects[i], kolNut[i]);
                 spriteBatch.DrawString(fontNuty, nutyText[i], new Vector2(nutyRects[i].X + nuty[i].Width/4, nutyRects[i].Y + nuty[i].Height/5), Color.White);
 
                 if (msRect.Intersects(nutyRects[i]))
