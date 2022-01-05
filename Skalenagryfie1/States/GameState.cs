@@ -461,7 +461,6 @@ namespace Skalenagryfie1.Content.States
                 
                     if (ms.LeftButton == ButtonState.Released && nutyRects[i].Intersects(interRects[i]) && trzymana_nuta == nutyText[i] && trzymana_nuta != rozwNuty[i])
                     {
-                        
                             if (rozwNuty[i] != nutyText[i])
                             {
                                 if (boolNuty[i] == false) 
@@ -473,11 +472,8 @@ namespace Skalenagryfie1.Content.States
                                     kolNut[i] = Color.LimeGreen;
                                     nutyRects[i].X = interRects[i].X + interRects[i].Width / 2 - nutyRects[i].Width / 2;
                                     nutyRects[i].Y = interRects[i].Y + interRects[i].Height / 2 - nutyRects[i].Height / 2;
-                            }
-                        
-
-
-                }
+                            }    
+                    }
             }
         }
 
