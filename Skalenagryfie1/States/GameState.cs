@@ -224,123 +224,123 @@ namespace Skalenagryfie1.Content.States
             gis_pent_mol.wypelnij_inf(4, 554, 459, 85, 61);
             gis_pent_mol.wypelnij_inf(5, 370, 402, 93, 56);//
 
-            a_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
-            a_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
-            a_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
-            a_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
-            a_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+            a_pent_mol.wypelnij_inf(1, 464, 519, 89, 46);
+            a_pent_mol.wypelnij_inf(2, 721, 521, 72, 50);
+            a_pent_mol.wypelnij_inf(3, 464, 459, 89, 59);
+            a_pent_mol.wypelnij_inf(4, 640, 460, 80, 61);
+            a_pent_mol.wypelnij_inf(5, 464, 402, 89, 56);//
 
-            ais_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
-            ais_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
-            ais_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
-            ais_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
-            ais_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+            ais_pent_mol.wypelnij_inf(1, 554, 520, 85, 49);
+            ais_pent_mol.wypelnij_inf(2, 794, 524, 73, 51);
+            ais_pent_mol.wypelnij_inf(3, 554, 459, 85, 61);
+            ais_pent_mol.wypelnij_inf(4, 721, 458, 72, 66);
+            ais_pent_mol.wypelnij_inf(5, 554, 402, 85, 56);//
 
-            h_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
-            h_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
-            h_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
-            h_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
-            h_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+            h_pent_mol.wypelnij_inf(1, 640, 521, 80, 50);
+            h_pent_mol.wypelnij_inf(2, 868, 524, 65, 51);
+            h_pent_mol.wypelnij_inf(3, 640, 460, 80, 61);
+            h_pent_mol.wypelnij_inf(4, 794, 458, 73, 66);
+            h_pent_mol.wypelnij_inf(5, 640, 409, 80, 51);// 
 
-            c_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
-            c_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
-            c_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
-            c_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
-            c_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+            c_pent_mol.wypelnij_inf(1, 721, 521, 72, 50);
+            c_pent_mol.wypelnij_inf(2, 934, 524, 63, 53);
+            c_pent_mol.wypelnij_inf(3, 721, 458, 72, 66);
+            c_pent_mol.wypelnij_inf(4, 868, 458, 65, 66);
+            c_pent_mol.wypelnij_inf(5, 721, 396, 72, 62);//
 
-            cis_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
-            cis_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
-            cis_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
-            cis_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
-            cis_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+            cis_pent_mol.wypelnij_inf(1, 794, 524, 73, 51);
+            cis_pent_mol.wypelnij_inf(2, 998, 527, 61, 53);
+            cis_pent_mol.wypelnij_inf(3, 794, 458, 73, 66);
+            cis_pent_mol.wypelnij_inf(4, 934, 457, 63, 70);
+            cis_pent_mol.wypelnij_inf(5, 794, 396, 73, 62);//
 
-            d_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
-            d_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
-            d_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
-            d_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
-            d_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+            d_pent_mol.wypelnij_inf(1, 868, 524, 65, 51);
+            d_pent_mol.wypelnij_inf(2, 1060, 527, 56, 55);
+            d_pent_mol.wypelnij_inf(3, 868, 458, 65, 66);
+            d_pent_mol.wypelnij_inf(4, 998, 457, 61, 70);
+            d_pent_mol.wypelnij_inf(5, 868, 393, 65, 65);//
 
-            dis_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
-            dis_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
-            dis_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
-            dis_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
-            dis_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+            dis_pent_mol.wypelnij_inf(1, 934, 524, 63, 53);
+            dis_pent_mol.wypelnij_inf(2, 117, 527, 52, 57);
+            dis_pent_mol.wypelnij_inf(3, 934, 457, 63, 70);
+            dis_pent_mol.wypelnij_inf(4, 1060, 457, 56, 70);
+            dis_pent_mol.wypelnij_inf(5, 934, 386, 63, 72);//
 
             #endregion
 
             #region Wypelnienie wspolrzednych i rozmiarow hitboxow - DUR
 
             e_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
-            e_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
-            e_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            e_pent_dur.wypelnij_inf(2, 162, 514, 103, 42);
+            e_pent_dur.wypelnij_inf(3, 370, 516, 93, 46);
             e_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
-            e_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+            e_pent_dur.wypelnij_inf(5, 370, 459, 93, 57);//
 
-            f_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            f_pent_dur.wypelnij_inf(1, 70, 514, 91, 40);
             f_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
-            f_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
-            f_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
-            f_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+            f_pent_dur.wypelnij_inf(3, 464, 519, 89, 46);
+            f_pent_dur.wypelnij_inf(4, 266, 458, 103, 56);
+            f_pent_dur.wypelnij_inf(5, 464, 459, 89, 59);//
 
-            fis_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
-            fis_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
-            fis_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
-            fis_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
-            fis_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+            fis_pent_dur.wypelnij_inf(1, 162, 514, 103, 42);
+            fis_pent_dur.wypelnij_inf(2, 370, 516, 93, 46);
+            fis_pent_dur.wypelnij_inf(3, 554, 520, 85, 49);
+            fis_pent_dur.wypelnij_inf(4, 370, 459, 93, 57);
+            fis_pent_dur.wypelnij_inf(5, 554, 459, 85, 61);//
 
-            g_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
-            g_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
-            g_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
-            g_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
-            g_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+            g_pent_dur.wypelnij_inf(1, 266, 514, 103, 45);
+            g_pent_dur.wypelnij_inf(2, 464, 519, 89, 46);
+            g_pent_dur.wypelnij_inf(3, 640, 521, 80, 50);
+            g_pent_dur.wypelnij_inf(4, 464, 459, 89, 59);
+            g_pent_dur.wypelnij_inf(5, 640, 460, 80, 61);//
 
-            gis_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
-            gis_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
-            gis_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
-            gis_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
-            gis_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+            gis_pent_dur.wypelnij_inf(1, 370, 516, 93, 46);
+            gis_pent_dur.wypelnij_inf(2, 554, 520, 85, 49);
+            gis_pent_dur.wypelnij_inf(3, 721, 521, 72, 50);
+            gis_pent_dur.wypelnij_inf(4, 554, 459, 85, 61);
+            gis_pent_dur.wypelnij_inf(5, 721, 458, 72, 66);//
 
-            a_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
-            a_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
-            a_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
-            a_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
-            a_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+            a_pent_dur.wypelnij_inf(1, 464, 519, 89, 46);
+            a_pent_dur.wypelnij_inf(2, 640, 521, 80, 50);
+            a_pent_dur.wypelnij_inf(3, 794, 524, 73, 51);
+            a_pent_dur.wypelnij_inf(4, 640, 460, 80, 61);
+            a_pent_dur.wypelnij_inf(5, 794, 458, 73, 66);//
 
-            ais_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
-            ais_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
-            ais_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
-            ais_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
-            ais_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+            ais_pent_dur.wypelnij_inf(1, 554, 520, 85, 49);
+            ais_pent_dur.wypelnij_inf(2, 721, 521, 72, 50);
+            ais_pent_dur.wypelnij_inf(3, 868, 524, 65, 51);
+            ais_pent_dur.wypelnij_inf(4, 721, 458, 72, 66);
+            ais_pent_dur.wypelnij_inf(5, 868, 458, 65, 66);//
 
-            h_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
-            h_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
-            h_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
-            h_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
-            h_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+            h_pent_dur.wypelnij_inf(1, 640, 521, 80, 50);
+            h_pent_dur.wypelnij_inf(2, 794, 524, 73, 51);
+            h_pent_dur.wypelnij_inf(3, 934, 524, 63, 53);
+            h_pent_dur.wypelnij_inf(4, 794, 458, 73, 66);
+            h_pent_dur.wypelnij_inf(5, 934, 457, 63, 70);//
 
-            c_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
-            c_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
-            c_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
-            c_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
-            c_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+            c_pent_dur.wypelnij_inf(1, 721, 521, 72, 50);
+            c_pent_dur.wypelnij_inf(2, 868, 524, 65, 51);
+            c_pent_dur.wypelnij_inf(3, 998, 527, 61, 53);
+            c_pent_dur.wypelnij_inf(4, 868, 458, 65, 66);
+            c_pent_dur.wypelnij_inf(5, 998, 457, 61, 70);//
 
-            cis_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
-            cis_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
-            cis_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
-            cis_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
-            cis_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+            cis_pent_dur.wypelnij_inf(1, 794, 524, 73, 51);
+            cis_pent_dur.wypelnij_inf(2, 934, 524, 63, 53);
+            cis_pent_dur.wypelnij_inf(3, 1060, 527, 56, 55);
+            cis_pent_dur.wypelnij_inf(4, 934, 457, 63, 70);
+            cis_pent_dur.wypelnij_inf(5, 1060, 457, 56, 70);//
 
-            d_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
-            d_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
-            d_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
-            d_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
-            d_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+            d_pent_dur.wypelnij_inf(1, 868, 524, 65, 51);
+            d_pent_dur.wypelnij_inf(2, 998, 527, 61, 53);
+            d_pent_dur.wypelnij_inf(3, 1117, 527, 52, 57);
+            d_pent_dur.wypelnij_inf(4, 998, 457, 61, 70);
+            d_pent_dur.wypelnij_inf(5, 1117, 457, 52, 70);//
 
-            dis_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
-            dis_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
-            dis_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
-            dis_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
-            dis_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+            dis_pent_dur.wypelnij_inf(1, 934, 524, 63, 53);
+            dis_pent_dur.wypelnij_inf(2, 1060, 527, 56, 55);
+            dis_pent_dur.wypelnij_inf(3, 1170, 527, 53, 59);
+            dis_pent_dur.wypelnij_inf(4, 1060, 457, 56, 70);
+            dis_pent_dur.wypelnij_inf(5, 1170, 457, 53, 70);//
             #endregion
 
             #region Wypelnienie kolorow nut
