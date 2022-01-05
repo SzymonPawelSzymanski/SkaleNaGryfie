@@ -3,10 +3,12 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Skalenagryfie1.Core;
+using Skalenagryfie1.Managers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Timers;
+
 
 
 namespace Skalenagryfie1.Content.States
@@ -15,6 +17,7 @@ namespace Skalenagryfie1.Content.States
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private ContentManager _content;
         private double timer = 0;
         private String czas;
         public SpriteFont tytulStrony;
@@ -36,7 +39,7 @@ namespace Skalenagryfie1.Content.States
         private Random rand = new Random();
         const int INCREMENT = 130;
         const int INCREMENT_N = 70;
-        private const int MAX_BTNS = 3;
+        private const int MAX_BTNS = 5;
         private const int MAX_NOTES = 5;
         private const int MAX_SCALES = 12;
         private Texture2D[] btns = new Texture2D[MAX_BTNS];
@@ -55,6 +58,7 @@ namespace Skalenagryfie1.Content.States
         private Skala_pentatoniczna[] durPent = new Skala_pentatoniczna[MAX_SCALES];
         private Skala_pentatoniczna obecna_skala;
         private Rectangle hitboxTest;
+        public bool reset;
         /*
          * 1. Ogarnij timer
          * 2. Ogarnij dobre wymiary gryfu do hitboxow
@@ -67,7 +71,7 @@ namespace Skalenagryfie1.Content.States
 
         internal override void LoadContent(ContentManager Content)
         {
-            
+            this._content = Content;
             teksturaGryfu = Content.Load<Texture2D>("Tekstury/rysunek_gryf_1");
             wongamescreen = Content.Load<Texture2D>("Tekstury/wongamescreen");
             teksturaNuty = Content.Load<Texture2D>("Tekstury/tlonutki40");
@@ -142,6 +146,7 @@ namespace Skalenagryfie1.Content.States
             c_pent_dur.nazwa_skali = "Skala C dur Pentatoniczna";
             cis_pent_dur.nazwa_skali = "Skala Cis dur Pentatoniczna";
             d_pent_dur.nazwa_skali = "Skala D dur Pentatoniczna";
+            dis_pent_dur.nazwa_skali = "Skala Dis dur Pentatoniczna";
             //dis_pent_dur.nazwa_skali = "Skala Dis dur Pentatoniczna";
 
 
@@ -187,14 +192,155 @@ namespace Skalenagryfie1.Content.States
             durPent[11] = dis_pent_dur;
             #endregion
 
-            #region Wypelnienie wspolrzednych i rozmiarow hitboxow
+            #region Wypelnienie wspolrzednych i rozmiarow hitboxow - MOL
 
-            e_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
+            e_pent_mol.wypelnij_inf(1, 21, 514, 48, 38); 
             e_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
             e_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
             e_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
-            e_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+            e_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);//
 
+            f_pent_mol.wypelnij_inf(1, 70, 514, 91, 40);
+            f_pent_mol.wypelnij_inf(2, 370, 516, 93, 46);
+            f_pent_mol.wypelnij_inf(3, 70, 459, 91, 55);
+            f_pent_mol.wypelnij_inf(4, 266, 458, 103, 56);
+            f_pent_mol.wypelnij_inf(5, 70, 409, 91, 51);//
+
+            fis_pent_mol.wypelnij_inf(1, 162, 514, 103, 42);
+            fis_pent_mol.wypelnij_inf(2, 464, 519, 89, 46);
+            fis_pent_mol.wypelnij_inf(3, 162, 461, 103, 53);
+            fis_pent_mol.wypelnij_inf(4, 370, 459, 93, 57);
+            fis_pent_mol.wypelnij_inf(5, 162, 407, 103, 54);//
+
+            g_pent_mol.wypelnij_inf(1, 266, 514, 103, 45);
+            g_pent_mol.wypelnij_inf(2, 554, 520, 85, 49);
+            g_pent_mol.wypelnij_inf(3, 266, 458, 103, 56);
+            g_pent_mol.wypelnij_inf(4, 464, 459, 89, 59);
+            g_pent_mol.wypelnij_inf(5, 266, 405, 103, 52);//
+
+            gis_pent_mol.wypelnij_inf(1, 370, 516, 93, 46);
+            gis_pent_mol.wypelnij_inf(2, 640, 521, 80, 50);
+            gis_pent_mol.wypelnij_inf(3, 370, 459, 93, 57);
+            gis_pent_mol.wypelnij_inf(4, 554, 459, 85, 61);
+            gis_pent_mol.wypelnij_inf(5, 370, 402, 93, 56);//
+
+            a_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
+            a_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
+            a_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
+            a_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
+            a_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+
+            ais_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
+            ais_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
+            ais_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
+            ais_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
+            ais_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+
+            h_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
+            h_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
+            h_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
+            h_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
+            h_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+
+            c_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
+            c_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
+            c_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
+            c_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
+            c_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+
+            cis_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
+            cis_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
+            cis_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
+            cis_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
+            cis_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+
+            d_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
+            d_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
+            d_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
+            d_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
+            d_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+
+            dis_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
+            dis_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
+            dis_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
+            dis_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
+            dis_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);
+
+            #endregion
+
+            #region Wypelnienie wspolrzednych i rozmiarow hitboxow - DUR
+
+            e_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            e_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            e_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            e_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            e_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+
+            f_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            f_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            f_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            f_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            f_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+
+            fis_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            fis_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            fis_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            fis_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            fis_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+
+            g_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            g_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            g_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            g_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            g_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+
+            gis_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            gis_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            gis_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            gis_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            gis_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+
+            a_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            a_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            a_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            a_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            a_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+
+            ais_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            ais_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            ais_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            ais_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            ais_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+
+            h_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            h_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            h_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            h_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            h_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+
+            c_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            c_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            c_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            c_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            c_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+
+            cis_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            cis_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            cis_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            cis_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            cis_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+
+            d_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            d_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            d_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            d_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            d_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
+
+            dis_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            dis_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            dis_pent_dur.wypelnij_inf(3, 21, 459, 48, 54);
+            dis_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            dis_pent_dur.wypelnij_inf(5, 21, 409, 48, 51);
             #endregion
 
             #region Wypelnienie kolorow nut
@@ -205,11 +351,11 @@ namespace Skalenagryfie1.Content.States
             kolNut[4] = Color.White;
             #endregion
 
-            //los = rand.Next(2);
-            //los_2 = rand.Next(12);
+            los = rand.Next(2);
+            los_2 = rand.Next(12);
 
-            los = 0;
-            los_2 = 0;
+            //los = 0;
+            //los_2 = 0;
 
 
 
@@ -242,7 +388,7 @@ namespace Skalenagryfie1.Content.States
                 }
             }
 
-            #region Wczytanie wsporlzednych hitboxow
+            #region Wczytanie wspolrzednych hitboxow
 
             for (int i = 0; i < 5; i++)
             {
@@ -260,6 +406,13 @@ namespace Skalenagryfie1.Content.States
             oldMs = ms;
             ms = Mouse.GetState();
             msRect = new Rectangle(ms.X, ms.Y, 1, 1);
+            if (reset == true)
+            {
+                GameStateManager.gs = new GameState();
+                GameStateManager.gs.LoadContent(_content);
+                //GameStateManager.reset_game = true;
+                reset = false;
+            }
             //wynik -= (int)(Math.Ceiling(timer)/60);
 
             //if (ms.LeftButton == ButtonState.Pressed)
@@ -271,17 +424,21 @@ namespace Skalenagryfie1.Content.States
             //    zajety_kursor = 0;
             //}
 
-            if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[0]))
+            if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(new Rectangle(530 - btnRects[3].Width / 2, 805, btnRects[3].Width, btnRects[3].Height - 20)) && wygrana_gra ==5)
             {
+                reset = true;
                 Data.CurrentState = Data.States.Game;
             }
-            else if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[1]))
-            {
-                Data.CurrentState = Data.States.Howto2;
-            }
-            else if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[2]))
+
+            else if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(new Rectangle(750 - btnRects[4].Width / 2, 805, btnRects[4].Width, btnRects[4].Height - 20)) && wygrana_gra == 5)
             {
                 Data.Exit = true; ;
+            }
+
+            else if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[2]))
+            {
+                reset = true;
+                Data.CurrentState = Data.States.Menu;
             }
 
             for (int i = 0; i < nuty.Length; i++)
@@ -301,7 +458,7 @@ namespace Skalenagryfie1.Content.States
                 {
                 }
 
-                //for(int j = 0; j < 5; j++) { 
+                
                     if (ms.LeftButton == ButtonState.Released && nutyRects[i].Intersects(interRects[i]) && trzymana_nuta == nutyText[i] && trzymana_nuta != rozwNuty[i])
                     {
                         
@@ -321,14 +478,6 @@ namespace Skalenagryfie1.Content.States
 
 
                 }
-                    /*s
-                    else if(ms.LeftButton == ButtonState.Released && trzymana_nuta != nutyText[i])
-                    {
-                        nutyRects[i].X = 120 + INCREMENT_N * i;
-                        nutyRects[i].Y = 800;
-                    }
-                    */
-                //}
             }
         }
 
@@ -336,9 +485,10 @@ namespace Skalenagryfie1.Content.States
         {
             spriteBatch.Draw(teksturaGryfu, new Rectangle(35, 150, teksturaGryfu.Width, teksturaGryfu.Height), Color.White);
             spriteBatch.Draw(teksturaBoxa, new Rectangle(35, 550, teksturaBoxa.Width, teksturaBoxa.Height), Color.White);
-            spriteBatch.Draw(btns[2], btnRects[2], Color.White);
+            spriteBatch.Draw(btns[4], btnRects[2], Color.White);
+            //spriteBatch.Draw(btns[2], btnRects[2], Color.White);
             //spriteBatch.DrawString(fontSkali,"Uzupelnij: ", new Vector2(430,100), Color.White);
-            spriteBatch.DrawString(fontSkali, nazwaSkali, new Vector2(430,100), Color.White);
+            spriteBatch.DrawString(fontSkali, nazwaSkali, new Vector2(400,100), Color.White);
             spriteBatch.DrawString(fontSkali, "pozycja #1", new Vector2(550,140), Color.White);
             //spriteBatch.DrawString(fontSkali, trzymana_nuta, new Vector2(400, 200), Color.White);
             spriteBatch.DrawString(fontSkali, "Czas gry: " + czas + "s", new Vector2(1000, 140), Color.White);
@@ -352,7 +502,7 @@ namespace Skalenagryfie1.Content.States
 
             if (msRect.Intersects(btnRects[2]))
             {
-                spriteBatch.Draw(btns[2], btnRects[2], Color.Gray);
+                spriteBatch.Draw(btns[4], btnRects[2], Color.Gray);
             }
 
             for (int i = 0; i < nuty.Length; i++)
@@ -381,6 +531,17 @@ namespace Skalenagryfie1.Content.States
                 spriteBatch.DrawString(fontSkali, nutyText[2], new Vector2(640, 524 + increment_3*2), Color.White);
                 spriteBatch.DrawString(fontSkali, nutyText[3], new Vector2(640, 524 + increment_3*3), Color.White);
                 spriteBatch.DrawString(fontSkali, nutyText[4], new Vector2(640, 521 + increment_3*4), Color.White);
+                spriteBatch.Draw(btns[3], new Rectangle(530 - btnRects[3].Width/2, 805, btnRects[3].Width, btnRects[3].Height-20), Color.White);
+                spriteBatch.Draw(btns[2], new Rectangle(750 - btnRects[4].Width/2, 805, btnRects[4].Width, btnRects[4].Height-20), Color.White);
+                if (msRect.Intersects(new Rectangle(530 - btnRects[3].Width / 2, 805, btnRects[3].Width, btnRects[3].Height-20)))
+                {
+                    spriteBatch.Draw(btns[3], new Rectangle(530 - btnRects[3].Width / 2, 805, btnRects[3].Width, btnRects[3].Height-20), Color.Gray);
+
+                }
+                else if (msRect.Intersects(new Rectangle(750 - btnRects[4].Width / 2, 805, btnRects[4].Width, btnRects[4].Height - 20)))
+                {
+                    spriteBatch.Draw(btns[2], new Rectangle(750 - btnRects[4].Width / 2, 805, btnRects[4].Width, btnRects[4].Height - 20), Color.Gray);
+                }
             }
         }
     }

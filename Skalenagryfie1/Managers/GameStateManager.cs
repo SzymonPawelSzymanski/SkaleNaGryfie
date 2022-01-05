@@ -11,14 +11,16 @@ namespace Skalenagryfie1.Managers
 {
     internal partial class GameStateManager : Component
     {
+        public static bool reset_game;
         private MenuState ms = new MenuState();
-        private GameState gs = new GameState();
+        public static GameState gs = new GameState();
         private Howto2State hts = new Howto2State();
 
         internal override void LoadContent(ContentManager Content)
         {
             ms.LoadContent(Content);
             gs.LoadContent(Content);
+            hts.LoadContent(Content);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

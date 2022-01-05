@@ -18,7 +18,7 @@ namespace Skalenagryfie1.Content.States
         private MouseState ms, oldMs;
         private Rectangle msRect;
         private Texture2D teksturaGryfu;
-        private const int MAX_BTNS = 3;
+        private const int MAX_BTNS = 5;
         private Texture2D[] btns = new Texture2D[MAX_BTNS];
         private Rectangle[] btnRects = new Rectangle[MAX_BTNS];
 
@@ -26,11 +26,11 @@ namespace Skalenagryfie1.Content.States
         internal override void LoadContent(ContentManager Content)
         {
             teksturaGryfu = Content.Load<Texture2D>("Tekstury/gryfBasowy1000");
-            const int INCREMENT = 130;
+            const int INCREMENT = 150;
             for (int i=0; i < btns.Length; i++)
             {
                 btns[i] = Content.Load<Texture2D>($"Tekstury/btn{i+1}");
-                btnRects[i] = new Rectangle(560, 300 + INCREMENT*i, btns[i].Width, btns[i].Height);
+                btnRects[i] = new Rectangle(640- btns[i].Width/2, 450 + INCREMENT*i, btns[i].Width, btns[i].Height);
             }
         }
 
@@ -57,7 +57,7 @@ namespace Skalenagryfie1.Content.States
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < btns.Length; i++)
+            for (int i = 0; i < 3; i++)
             {
                 spriteBatch.Draw(btns[i], btnRects[i], Color.White);
                 if (msRect.Intersects(btnRects[i]))
