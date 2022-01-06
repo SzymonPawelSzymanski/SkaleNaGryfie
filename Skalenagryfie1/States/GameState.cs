@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Skalenagryfie1.Content.States
 {
-    internal class GameState : Component//dziedziczy wszycho po klasie State (astrakcyjnej ktora sluzy tylko do dziedziczenia)
+    internal class GameState : Component
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -35,7 +35,6 @@ namespace Skalenagryfie1.Content.States
         private int wynik = 0;
         private int wygrana_gra = 0;
         private bool wygrana_bool;
-        //private int zajety_kursor = 0;
         private Random rand = new Random();
         const int INCREMENT = 130;
         const int INCREMENT_N = 70;
@@ -66,15 +65,6 @@ namespace Skalenagryfie1.Content.States
         private int tick;
         private int wybor;
         private int skala;
-        /*
-         * 1. Ogarnij timer
-         * 2. Ogarnij dobre wymiary gryfu do hitboxow
-         * 3. Warunki wygrania gry
-         * 4. Zliczanie wyniku
-         * 5. Zapisywanie wyniku
-         * 6. Instrukcja gry ci nie dziala
-         */
-
 
         internal override void LoadContent(ContentManager Content)
         {
@@ -85,7 +75,6 @@ namespace Skalenagryfie1.Content.States
             teksturaBoxa = Content.Load<Texture2D>("Tekstury/pudelko_nut_2");
             fontNuty = Content.Load<SpriteFont>("Fonts/nutkafont");
             fontSkali = Content.Load<SpriteFont>("Fonts/skalafont");
-            //dzwieki_nut[0] = Content.Load<SoundEffect>("Sounds/cnote");
 
             #region zaladowanie dzwiekow i dodanie do tablicy
             dzwieki_nut_mol[0] = Content.Load<SoundEffect>("Sounds/emol");
@@ -516,10 +505,6 @@ namespace Skalenagryfie1.Content.States
                         nutyRects[i].Y = ms.Y - (nutyRects[i].Height / 2);
                     }
                 }
-                else
-                {
-                }
-
                 
                     if (ms.LeftButton == ButtonState.Released && nutyRects[i].Intersects(interRects[i]) && trzymana_nuta == nutyText[i] && trzymana_nuta != rozwNuty[i])
                     {
@@ -532,7 +517,6 @@ namespace Skalenagryfie1.Content.States
                                     rozwNuty[i] = nutyText[i];
                                     boolNuty[i] = true;
                                     kolNut[i] = Color.LimeGreen;
-                                    //dzwieki_nut[0].Play();
                                     nutyRects[i].X = interRects[i].X + interRects[i].Width / 2 - nutyRects[i].Width / 2;
                                     nutyRects[i].Y = interRects[i].Y + interRects[i].Height / 2 - nutyRects[i].Height / 2;
                             }    
@@ -545,22 +529,10 @@ namespace Skalenagryfie1.Content.States
             spriteBatch.Draw(teksturaGryfu, new Rectangle(35, 150, teksturaGryfu.Width, teksturaGryfu.Height), Color.White);
             spriteBatch.Draw(teksturaBoxa, new Rectangle(35, 550, teksturaBoxa.Width, teksturaBoxa.Height), Color.White);
             spriteBatch.Draw(btns[4], btnRects[2], Color.White);
-            //spriteBatch.Draw(btns[2], btnRects[2], Color.White);
-            //spriteBatch.DrawString(fontSkali,"Uzupelnij: ", new Vector2(430,100), Color.White);
             spriteBatch.DrawString(fontSkali, nazwaSkali, new Vector2(400,100), Color.White);
             spriteBatch.DrawString(fontSkali, "pozycja #1", new Vector2(550,140), Color.White);
-            //spriteBatch.DrawString(fontSkali, trzymana_nuta, new Vector2(400, 200), Color.White);
             spriteBatch.DrawString(fontSkali, "Czas gry: " + czas + "s", new Vector2(1000, 140), Color.White);
-            spriteBatch.DrawString(fontSkali, "Wynik: " + wynik, new Vector2(1000, 100), Color.White);
-            //spriteBatch.DrawString(fontSkali, "Los: " + los.ToString(), new Vector2(1000, 200), Color.White);
-            //spriteBatch.DrawString(fontSkali, "Los_2: " + los_2.ToString(), new Vector2(1000, 250), Color.White);
-            //spriteBatch.DrawString(fontSkali, "Wybor: " + wybor.ToString(), new Vector2(1000, 300), Color.White);
-            //spriteBatch.DrawString(fontSkali, "Wybrany tryb: " + MenuState.wybrany_tryb.ToString(), new Vector2(1000, 350), Color.White);
-            //spriteBatch.DrawString(fontSkali, "Zajety kursor: " + zajety_kursor.ToString(), new Vector2(1000, 300), Color.White);
-            //spriteBatch.DrawString(fontSkali, czas.ToString(), new Vector2(400, 200), Color.White);
-            //spriteBatch.Draw(teksturaGryfu, hitboxTest, Color.White);
-
-               
+            spriteBatch.DrawString(fontSkali, "Wynik: " + wynik, new Vector2(1000, 100), Color.White);   
             
 
             if (msRect.Intersects(btnRects[2]))
@@ -580,7 +552,6 @@ namespace Skalenagryfie1.Content.States
                 }
             }
 
-          
             if (wygrana_gra == 5)
             {
                 if(zagranydzwiek == false) { obecna_skala_dzwiek.Play(); }

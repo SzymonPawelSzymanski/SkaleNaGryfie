@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Skalenagryfie1.Content.States
 {
-    internal class MenuState : Component//dziedziczy wszycho po klasie State (astrakcyjnej ktora sluzy tylko do dziedziczenia)
+    internal class MenuState : Component
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -171,7 +171,6 @@ namespace Skalenagryfie1.Content.States
             spriteBatch.Draw(teksturaGryfu, new Rectangle(35, -100, teksturaGryfu.Width, teksturaGryfu.Height), Color.White);
             spriteBatch.DrawString(fontSkali, "USTAWIENIA SKALI", new Vector2(80, 330), Color.White);
             spriteBatch.DrawString(fontSkali, "TABLICA WYNIKOW", new Vector2(850, 330), Color.White);
-            //spriteBatch.DrawString(fontSkali, "Wybrany tryb: " +wybrany_tryb.ToString(), new Vector2(380, 330), Color.White);
             spriteBatch.Draw(tablicamol, new Rectangle(110 - tablicadur.Width/2, 385, tablicadur.Width, tablicadur.Height), Color.White);
             spriteBatch.Draw(tablicadur, new Rectangle(220 - tablicadur.Width/2, 385, tablicadur.Width, tablicadur.Height), Color.White);
             spriteBatch.Draw(tablicalosowo, new Rectangle(380 - tablicalosowo.Width/2, 385, tablicalosowo.Width, tablicalosowo.Height), tablicalosowo_col);
@@ -230,7 +229,6 @@ namespace Skalenagryfie1.Content.States
 
             #endregion
 
-
             #region tablica wynikow - wyniki
 
             for (int i = 0; i < 10; i++)
@@ -239,14 +237,6 @@ namespace Skalenagryfie1.Content.States
             }
 
             #endregion
-
-            //dopisz zmiane kolorow jak zaznaczysz ustawienie na glownym ekranie
-
-
-            //foreach (var component in _components)
-            //   component.Draw(spriteBatch);
-
-            //spriteBatch.End();
         }
     }
 }
