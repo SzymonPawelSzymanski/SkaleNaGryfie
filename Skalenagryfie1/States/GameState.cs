@@ -15,6 +15,10 @@ namespace Skalenagryfie1.Content.States
 {
     internal class GameState : Component
     {
+        /// <summary>
+        /// Główne okienko gry, które wyświetli nam się po naciśnięciu przycisku start
+        /// </summary>
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private ContentManager _content;
@@ -66,8 +70,15 @@ namespace Skalenagryfie1.Content.States
         private int wybor;
         private int skala;
 
+
+        /// <summary>
+        /// W tej metodzie ładowane są zasoby do gry - analogiczne w metodzie LoadContent na każdej stronie
+        /// </summary>
+        /// <param name="Content"></param>
         internal override void LoadContent(ContentManager Content)
         {
+            
+
             this._content = Content;
             teksturaGryfu = Content.Load<Texture2D>("Tekstury/rysunek_gryf_1");
             wongamescreen = Content.Load<Texture2D>("Tekstury/wongamescreen");
@@ -442,6 +453,10 @@ namespace Skalenagryfie1.Content.States
 
         }
 
+        /// <summary>
+        /// Metoda odświeżająca stan gry 60 razy na sekundę
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             MediaPlayer.Stop();
@@ -524,6 +539,11 @@ namespace Skalenagryfie1.Content.States
             }
         }
 
+
+        /// <summary>
+        /// Metoda odpowiedzialna za wyświetlanie grafik, napisów i rysowanie po ekranie
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(teksturaGryfu, new Rectangle(35, 150, teksturaGryfu.Width, teksturaGryfu.Height), Color.White);

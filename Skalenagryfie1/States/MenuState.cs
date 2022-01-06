@@ -13,6 +13,10 @@ namespace Skalenagryfie1.Content.States
 {
     internal class MenuState : Component
     {
+        /// <summary>
+        /// Klasa odpowiedzialna za okno menu
+        /// </summary>
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private ContentManager _content;
@@ -42,7 +46,10 @@ namespace Skalenagryfie1.Content.States
         public static int wybrany_tryb; //-1 - losowo/ 0 - 11 dur/12 - 23 mol
         public static string[] tab_wynikow = new string[10];
 
-
+        /// <summary>
+        ///  W tej metodzie ładowane są zasoby do gry - analogiczne w metodzie LoadContent na każdej stronie
+        /// </summary>
+        /// <param name="Content"></param>
         internal override void LoadContent(ContentManager Content)
         {
             this._content = Content;
@@ -81,6 +88,11 @@ namespace Skalenagryfie1.Content.States
 
         }
 
+
+        /// <summary>
+        ///  Metoda odświeżająca stan gry 60 razy na sekundę
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             if(Game1.ktora_gra == 9)
@@ -165,6 +177,10 @@ namespace Skalenagryfie1.Content.States
 
         }
 
+        /// <summary>
+        ///  Metoda odpowiedzialna za wyświetlanie grafik, napisów i rysowanie po ekranie
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public override void Draw(SpriteBatch spriteBatch)
         {
 

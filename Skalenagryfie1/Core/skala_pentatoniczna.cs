@@ -6,7 +6,10 @@ namespace Skalenagryfie1.Content
 {
     public class Skala_pentatoniczna
     {
-        //DUR - MAJOR ----- MOL - MINOR
+        /// <summary>
+        /// Klasa skala pentatoniczna określa budowę skal, na których operujemy grając
+        /// </summary>
+
         public string nazwa_skali = " ";
         public int ilosc_nut = 5;
         const int wiersze = 5;

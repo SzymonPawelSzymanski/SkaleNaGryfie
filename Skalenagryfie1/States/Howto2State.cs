@@ -11,6 +11,9 @@ namespace Skalenagryfie1.Content.States
 {
     internal class Howto2State : Component
     {
+        /// <summary>
+        /// Okno instrukcji - mówi nam jak grać w grę
+        /// </summary>
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private ContentManager _content;
@@ -24,7 +27,10 @@ namespace Skalenagryfie1.Content.States
         private Rectangle[] btnRects = new Rectangle[MAX_BTNS];
         public bool reset;
 
-
+        /// <summary>
+        /// W tej metodzie ładowane są zasoby do gry - analogiczne w metodzie LoadContent na każdej stronie
+        /// </summary>
+        /// <param name="Content"></param>
         internal override void LoadContent(ContentManager Content)
         {
             this._content = Content;
@@ -37,6 +43,10 @@ namespace Skalenagryfie1.Content.States
             }
         }
 
+        /// <summary>
+        /// Metoda odświeżająca stan gry 60 razy na sekundę
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             oldMs = ms;
@@ -49,6 +59,10 @@ namespace Skalenagryfie1.Content.States
             }
         }
 
+        /// <summary>
+        ///  Metoda odpowiedzialna za wyświetlanie grafik, napisów i rysowanie po ekranie
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(instrukcja, new Rectangle(35, 20, instrukcja.Width, instrukcja.Height), Color.White);

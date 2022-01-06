@@ -9,6 +9,10 @@ namespace Skalenagryfie1
 {
     internal abstract class Component
     {
+        /// <summary>
+        /// Klasa, po której dziedziczą okna gry
+        /// </summary>
+        /// <param name="Content"></param>
         internal abstract void LoadContent(ContentManager Content);
 
         public abstract void Draw(SpriteBatch spriteBatch);

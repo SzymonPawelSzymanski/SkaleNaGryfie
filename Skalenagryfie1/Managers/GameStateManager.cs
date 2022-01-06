@@ -11,6 +11,10 @@ namespace Skalenagryfie1.Managers
 {
     internal partial class GameStateManager : Component
     {
+        /// <summary>
+        /// Ta klasa obsluguje przełączanie okien gry
+        /// </summary>
+
         public static bool reset_game;
         private MenuState ms = new MenuState();
         public static GameState gs = new GameState();

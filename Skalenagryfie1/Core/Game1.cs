@@ -13,6 +13,10 @@ namespace Skalenagryfie1
 {
     public class Game1 : Game
     {
+        /// <summary>
+        /// Główna klasa gry
+        /// </summary>
+
         public static GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private Color _backgroundColor = new Color(new Vector3(0.145f, 0.149f, 0.145f));
