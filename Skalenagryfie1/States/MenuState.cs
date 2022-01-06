@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Skalenagryfie1.Core;
 using Skalenagryfie1.Managers;
 using System;
@@ -16,6 +17,7 @@ namespace Skalenagryfie1.Content.States
         private SpriteBatch _spriteBatch;
         private ContentManager _content;
         private List<Component> _components;
+        private Song groove;
         public SpriteFont tytulStrony;
         private SpriteFont fontSkali;
         private MouseState ms, oldMs;
@@ -49,6 +51,9 @@ namespace Skalenagryfie1.Content.States
             tablicamol = Content.Load<Texture2D>("Tekstury/tablicamol");
             tablicalosowo = Content.Load<Texture2D>("Tekstury/tablicalosowo");
             fontSkali = Content.Load<SpriteFont>("Fonts/skalafont");
+            groove = Content.Load<Song>("Sounds/groove2");
+            MediaPlayer.Volume -= 0.7f;
+            MediaPlayer.Play(groove);
             const int INCREMENT = 150;
             const int INCREMENT_2 = 45;
             wybrany_tryb = -1;
@@ -78,6 +83,19 @@ namespace Skalenagryfie1.Content.States
 
         public override void Update(GameTime gameTime)
         {
+            if(Game1.ktora_gra == 9)
+            {
+                tab_wynikow[9] = tab_wynikow[8];
+                tab_wynikow[8] = tab_wynikow[7];
+                tab_wynikow[7] = tab_wynikow[6];
+                tab_wynikow[6] = tab_wynikow[5];
+                tab_wynikow[5] = tab_wynikow[4];
+                tab_wynikow[4] = tab_wynikow[3];
+                tab_wynikow[3] = tab_wynikow[2];
+                tab_wynikow[2] = tab_wynikow[1];
+                tab_wynikow[1] = tab_wynikow[0];
+                Game1.ktora_gra = 0;
+            }
             oldMs = ms;
             ms = Mouse.GetState();
             msRect = new Rectangle(ms.X, ms.Y, 1, 1);

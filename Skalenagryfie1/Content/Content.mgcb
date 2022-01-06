@@ -173,6 +173,18 @@
 /processorParam:Quality=Best
 /build:Sounds/gmol.wav
 
+#begin Sounds/groove1.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/groove1.mp3
+
+#begin Sounds/groove2.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/groove2.mp3
+
 #begin Sounds/hdur.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

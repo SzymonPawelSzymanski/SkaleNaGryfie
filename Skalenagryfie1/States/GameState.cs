@@ -9,8 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Timers;
-
-
+using Microsoft.Xna.Framework.Media;
 
 namespace Skalenagryfie1.Content.States
 {
@@ -19,7 +18,6 @@ namespace Skalenagryfie1.Content.States
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private ContentManager _content;
-        private SoundEffect[] dzwieki_nut = new SoundEffect[1];
         private double timer = 0;
         private String czas;
         public SpriteFont tytulStrony;
@@ -59,8 +57,13 @@ namespace Skalenagryfie1.Content.States
         private Skala_pentatoniczna[] molPent = new Skala_pentatoniczna[MAX_SCALES];
         private Skala_pentatoniczna[] durPent = new Skala_pentatoniczna[MAX_SCALES];
         private Skala_pentatoniczna obecna_skala;
+        private SoundEffect[] dzwieki_nut_mol = new SoundEffect[12];
+        private SoundEffect[] dzwieki_nut_dur = new SoundEffect[12];
+        private SoundEffect obecna_skala_dzwiek;
+        private bool zagranydzwiek;
         private Rectangle hitboxTest;
         public bool reset;
+        private int tick;
         private int wybor;
         private int skala;
         /*
@@ -82,8 +85,35 @@ namespace Skalenagryfie1.Content.States
             teksturaBoxa = Content.Load<Texture2D>("Tekstury/pudelko_nut_2");
             fontNuty = Content.Load<SpriteFont>("Fonts/nutkafont");
             fontSkali = Content.Load<SpriteFont>("Fonts/skalafont");
-            dzwieki_nut[0] = Content.Load<SoundEffect>("Sounds/cnote");
+            //dzwieki_nut[0] = Content.Load<SoundEffect>("Sounds/cnote");
 
+            #region zaladowanie dzwiekow i dodanie do tablicy
+            dzwieki_nut_mol[0] = Content.Load<SoundEffect>("Sounds/emol");
+            dzwieki_nut_mol[1] = Content.Load<SoundEffect>("Sounds/fmol");
+            dzwieki_nut_mol[2] = Content.Load<SoundEffect>("Sounds/fismol");
+            dzwieki_nut_mol[3] = Content.Load<SoundEffect>("Sounds/gmol");
+            dzwieki_nut_mol[4] = Content.Load<SoundEffect>("Sounds/gismol");
+            dzwieki_nut_mol[5] = Content.Load<SoundEffect>("Sounds/amol");
+            dzwieki_nut_mol[6] = Content.Load<SoundEffect>("Sounds/aismol");
+            dzwieki_nut_mol[7] = Content.Load<SoundEffect>("Sounds/hmol");
+            dzwieki_nut_mol[8] = Content.Load<SoundEffect>("Sounds/cmol");
+            dzwieki_nut_mol[9] = Content.Load<SoundEffect>("Sounds/cismol");
+            dzwieki_nut_mol[10] = Content.Load<SoundEffect>("Sounds/dmol");
+            dzwieki_nut_mol[11] = Content.Load<SoundEffect>("Sounds/dismol");
+
+            dzwieki_nut_dur[0] = Content.Load<SoundEffect>("Sounds/edur");
+            dzwieki_nut_dur[1] = Content.Load<SoundEffect>("Sounds/fdur");
+            dzwieki_nut_dur[2] = Content.Load<SoundEffect>("Sounds/fisdur");
+            dzwieki_nut_dur[3] = Content.Load<SoundEffect>("Sounds/gdur");
+            dzwieki_nut_dur[4] = Content.Load<SoundEffect>("Sounds/gisdur");
+            dzwieki_nut_dur[5] = Content.Load<SoundEffect>("Sounds/adur");
+            dzwieki_nut_dur[6] = Content.Load<SoundEffect>("Sounds/aisdur");
+            dzwieki_nut_dur[7] = Content.Load<SoundEffect>("Sounds/hdur");
+            dzwieki_nut_dur[8] = Content.Load<SoundEffect>("Sounds/cdur");
+            dzwieki_nut_dur[9] = Content.Load<SoundEffect>("Sounds/cisdur");
+            dzwieki_nut_dur[10] = Content.Load<SoundEffect>("Sounds/ddur");
+            dzwieki_nut_dur[11] = Content.Load<SoundEffect>("Sounds/disdur");
+            #endregion
 
 
             #region Stworzenie_pentatonik
@@ -118,7 +148,7 @@ namespace Skalenagryfie1.Content.States
             f_pent_mol.wypelnij_skale("F", "Gis", "Ais", "C", "Dis");
             fis_pent_mol.wypelnij_skale("Fis", "A", "H", "Cis", "E");
             g_pent_mol.wypelnij_skale("G", "Ais", "C", "D", "F");
-            gis_pent_mol.wypelnij_skale("Gis", "B", "Cis", "Dis", "Fis");
+            gis_pent_mol.wypelnij_skale("Gis", "H", "Cis", "Dis", "Fis");
             a_pent_mol.wypelnij_skale("A", "C", "D", "E", "G");
             ais_pent_mol.wypelnij_skale("Ais", "Cis", "Dis", "F", "Gis");
             h_pent_mol.wypelnij_skale("H", "D", "E", "Fis", "A");
@@ -267,7 +297,7 @@ namespace Skalenagryfie1.Content.States
             d_pent_mol.wypelnij_inf(5, 868, 393, 65, 65);//
 
             dis_pent_mol.wypelnij_inf(1, 934, 524, 63, 53);
-            dis_pent_mol.wypelnij_inf(2, 117, 527, 52, 57);
+            dis_pent_mol.wypelnij_inf(2, 1117, 527, 52, 57);
             dis_pent_mol.wypelnij_inf(3, 934, 457, 63, 70);
             dis_pent_mol.wypelnij_inf(4, 1060, 457, 56, 70);
             dis_pent_mol.wypelnij_inf(5, 934, 386, 63, 72);//
@@ -390,6 +420,7 @@ namespace Skalenagryfie1.Content.States
             if (los == 0)
             {
                 obecna_skala = molPent[los_2];
+                obecna_skala_dzwiek = dzwieki_nut_mol[los_2];
                 nazwaSkali = molPent[los_2].nazwa_skali;
                 for (int i = 0; i < nuty.Length; i++)
                 {
@@ -401,6 +432,7 @@ namespace Skalenagryfie1.Content.States
             else if (los == 1)
             {
                 obecna_skala = durPent[los_2];
+                obecna_skala_dzwiek = dzwieki_nut_dur[los_2];
                 nazwaSkali = durPent[los_2].nazwa_skali;
                 for (int i = 0; i < nuty.Length; i++)
                 {
@@ -423,6 +455,15 @@ namespace Skalenagryfie1.Content.States
 
         public override void Update(GameTime gameTime)
         {
+            MediaPlayer.Stop();
+            if (wygrana_gra != 5)
+            { 
+                tick += 1;
+                if (tick % 60 == 0)
+                {
+                    wynik -= 1;
+                }
+        }
 
             if (wygrana_bool == false) {timer += gameTime.ElapsedGameTime.TotalSeconds; }
             czas = Math.Ceiling(timer).ToString();
@@ -454,7 +495,11 @@ namespace Skalenagryfie1.Content.States
 
             else if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[2]))
             {
-                reset = true;
+                MenuState.wybrany_tryb = -1;
+                MenuState.tab_wynikow[Game1.ktora_gra] = wynik.ToString();
+                Game1.ktora_gra += 1;
+                GameStateManager.gs = new GameState();
+                GameStateManager.gs.LoadContent(_content);
                 Data.CurrentState = Data.States.Menu;
             }
 
@@ -487,7 +532,7 @@ namespace Skalenagryfie1.Content.States
                                     rozwNuty[i] = nutyText[i];
                                     boolNuty[i] = true;
                                     kolNut[i] = Color.LimeGreen;
-                                    dzwieki_nut[0].Play();
+                                    //dzwieki_nut[0].Play();
                                     nutyRects[i].X = interRects[i].X + interRects[i].Width / 2 - nutyRects[i].Width / 2;
                                     nutyRects[i].Y = interRects[i].Y + interRects[i].Height / 2 - nutyRects[i].Height / 2;
                             }    
@@ -538,6 +583,8 @@ namespace Skalenagryfie1.Content.States
           
             if (wygrana_gra == 5)
             {
+                if(zagranydzwiek == false) { obecna_skala_dzwiek.Play(); }
+                zagranydzwiek = true;
                 int increment_3 = 52;
                 wygrana_bool = true;
                 spriteBatch.Draw(wongamescreen, new Rectangle(240, 100, wongamescreen.Width, wongamescreen.Height), Color.White);

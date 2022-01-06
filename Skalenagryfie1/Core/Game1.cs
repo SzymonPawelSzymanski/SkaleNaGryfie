@@ -139,6 +139,7 @@ namespace Skalenagryfie1
 
         protected override void Update(GameTime gameTime)
         {
+
             gsm.Update(gameTime);
 
             if(Data.Exit == true)
