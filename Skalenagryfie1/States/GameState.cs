@@ -12,12 +12,12 @@ using System.Timers;
 using Microsoft.Xna.Framework.Media;
 
 namespace Skalenagryfie1.Content.States
-{
+{        /// <summary>
+         /// Główne okienko gry, które wyświetli nam się po naciśnięciu przycisku start
+         /// </summary>
     internal class GameState : Component
     {
-        /// <summary>
-        /// Główne okienko gry, które wyświetli nam się po naciśnięciu przycisku start
-        /// </summary>
+
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;

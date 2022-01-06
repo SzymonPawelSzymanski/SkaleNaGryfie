@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Skalenagryfie1.Content
-{
+{        /// <summary>
+         /// Klasa skala pentatoniczna określa budowę skal, na których operujemy grając
+         /// </summary>
     public class Skala_pentatoniczna
     {
-        /// <summary>
-        /// Klasa skala pentatoniczna określa budowę skal, na których operujemy grając
-        /// </summary>
+
 
         public string nazwa_skali = " ";
         public int ilosc_nut = 5;

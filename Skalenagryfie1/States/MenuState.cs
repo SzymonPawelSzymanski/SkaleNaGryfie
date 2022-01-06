@@ -10,12 +10,12 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Skalenagryfie1.Content.States
-{
+{ /// <summary>
+  /// Klasa odpowiedzialna za okno menu
+  /// </summary>
     internal class MenuState : Component
     {
-        /// <summary>
-        /// Klasa odpowiedzialna za okno menu
-        /// </summary>
+       
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;

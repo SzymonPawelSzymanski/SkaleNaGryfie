@@ -9,11 +9,12 @@ using System.Text;
 
 namespace Skalenagryfie1.Content.States
 {
+    /// <summary>
+    /// Okno instrukcji - mówi nam jak grać w grę
+    /// </summary>
     internal class Howto2State : Component
     {
-        /// <summary>
-        /// Okno instrukcji - mówi nam jak grać w grę
-        /// </summary>
+        
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private ContentManager _content;

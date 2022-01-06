@@ -11,11 +11,11 @@ using Skalenagryfie1.Managers;
 
 namespace Skalenagryfie1
 {
+    /// <summary>
+    /// Główna klasa gry
+    /// </summary>
     public class Game1 : Game
     {
-        /// <summary>
-        /// Główna klasa gry
-        /// </summary>
 
         public static GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;

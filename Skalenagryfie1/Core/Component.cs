@@ -6,12 +6,12 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Skalenagryfie1
-{
+{        /// <summary>
+         /// Klasa, po której dziedziczą okna gry
+         /// </summary>
     internal abstract class Component
     {
-        /// <summary>
-        /// Klasa, po której dziedziczą okna gry
-        /// </summary>
+
         /// <param name="Content"></param>
         internal abstract void LoadContent(ContentManager Content);
 
