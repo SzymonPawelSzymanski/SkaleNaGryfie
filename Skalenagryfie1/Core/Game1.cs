@@ -8,6 +8,7 @@ using Skalenagryfie1.Content.States;
 using Skalenagryfie1.Core;
 using Skalenagryfie1.Managers;
 
+
 namespace Skalenagryfie1
 {
     public class Game1 : Game
@@ -17,6 +18,7 @@ namespace Skalenagryfie1
         private Color _backgroundColor = new Color(new Vector3(0.145f, 0.149f, 0.145f)); //moj szary to new Color(new Vector3(0.145f, 0.149f, 0.145f))
         SpriteFont tytulStrony;
         private GameStateManager gsm;
+        public static int ktora_gra = 0;
 
         private List<Component> _gameComponents;
         

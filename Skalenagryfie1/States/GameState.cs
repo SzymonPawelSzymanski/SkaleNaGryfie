@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Skalenagryfie1.Core;
 using Skalenagryfie1.Managers;
@@ -18,6 +19,7 @@ namespace Skalenagryfie1.Content.States
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private ContentManager _content;
+        private SoundEffect[] dzwieki_nut = new SoundEffect[1];
         private double timer = 0;
         private String czas;
         public SpriteFont tytulStrony;
@@ -59,6 +61,8 @@ namespace Skalenagryfie1.Content.States
         private Skala_pentatoniczna obecna_skala;
         private Rectangle hitboxTest;
         public bool reset;
+        private int wybor;
+        private int skala;
         /*
          * 1. Ogarnij timer
          * 2. Ogarnij dobre wymiary gryfu do hitboxow
@@ -78,7 +82,9 @@ namespace Skalenagryfie1.Content.States
             teksturaBoxa = Content.Load<Texture2D>("Tekstury/pudelko_nut_2");
             fontNuty = Content.Load<SpriteFont>("Fonts/nutkafont");
             fontSkali = Content.Load<SpriteFont>("Fonts/skalafont");
-            hitboxTest = new Rectangle(10, 10, 100, 100);
+            dzwieki_nut[0] = Content.Load<SoundEffect>("Sounds/cnote");
+
+
 
             #region Stworzenie_pentatonik
             //STWORZENIE PENTATONIK MOLOWYCH
@@ -354,8 +360,24 @@ namespace Skalenagryfie1.Content.States
             los = rand.Next(2);
             los_2 = rand.Next(12);
 
-            //los = 0;
-            //los_2 = 0;
+            if(MenuState.wybrany_tryb == -1)
+            {
+                wybor = 0;
+                los = rand.Next(2);
+                los_2 = rand.Next(12);
+            }
+            else if(MenuState.wybrany_tryb >= 0 && MenuState.wybrany_tryb <= 11)
+            {
+                wybor = 1;
+                los_2 = MenuState.wybrany_tryb;
+                los = 0;
+            }
+            else if (MenuState.wybrany_tryb > 11 && MenuState.wybrany_tryb <= 24)
+            {
+                wybor = 2;
+                los_2 = MenuState.wybrany_tryb-12;
+                los = 1;
+            }
 
 
 
@@ -401,6 +423,7 @@ namespace Skalenagryfie1.Content.States
 
         public override void Update(GameTime gameTime)
         {
+
             if (wygrana_bool == false) {timer += gameTime.ElapsedGameTime.TotalSeconds; }
             czas = Math.Ceiling(timer).ToString();
             oldMs = ms;
@@ -408,21 +431,14 @@ namespace Skalenagryfie1.Content.States
             msRect = new Rectangle(ms.X, ms.Y, 1, 1);
             if (reset == true)
             {
+                MenuState.wybrany_tryb = -1;
+                MenuState.tab_wynikow[Game1.ktora_gra] = wynik.ToString();
+                Game1.ktora_gra += 1;
                 GameStateManager.gs = new GameState();
                 GameStateManager.gs.LoadContent(_content);
-                //GameStateManager.reset_game = true;
                 reset = false;
             }
-            //wynik -= (int)(Math.Ceiling(timer)/60);
 
-            //if (ms.LeftButton == ButtonState.Pressed)
-            //{
-            //    zajety_kursor = 1;
-            //}
-            //else
-            //{
-            //    zajety_kursor = 0;
-            //}
 
             if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(new Rectangle(530 - btnRects[3].Width / 2, 805, btnRects[3].Width, btnRects[3].Height - 20)) && wygrana_gra ==5)
             {
@@ -432,6 +448,7 @@ namespace Skalenagryfie1.Content.States
 
             else if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(new Rectangle(750 - btnRects[4].Width / 2, 805, btnRects[4].Width, btnRects[4].Height - 20)) && wygrana_gra == 5)
             {
+                reset = true;
                 Data.Exit = true; ;
             }
 
@@ -470,6 +487,7 @@ namespace Skalenagryfie1.Content.States
                                     rozwNuty[i] = nutyText[i];
                                     boolNuty[i] = true;
                                     kolNut[i] = Color.LimeGreen;
+                                    dzwieki_nut[0].Play();
                                     nutyRects[i].X = interRects[i].X + interRects[i].Width / 2 - nutyRects[i].Width / 2;
                                     nutyRects[i].Y = interRects[i].Y + interRects[i].Height / 2 - nutyRects[i].Height / 2;
                             }    
@@ -489,6 +507,10 @@ namespace Skalenagryfie1.Content.States
             //spriteBatch.DrawString(fontSkali, trzymana_nuta, new Vector2(400, 200), Color.White);
             spriteBatch.DrawString(fontSkali, "Czas gry: " + czas + "s", new Vector2(1000, 140), Color.White);
             spriteBatch.DrawString(fontSkali, "Wynik: " + wynik, new Vector2(1000, 100), Color.White);
+            //spriteBatch.DrawString(fontSkali, "Los: " + los.ToString(), new Vector2(1000, 200), Color.White);
+            //spriteBatch.DrawString(fontSkali, "Los_2: " + los_2.ToString(), new Vector2(1000, 250), Color.White);
+            //spriteBatch.DrawString(fontSkali, "Wybor: " + wybor.ToString(), new Vector2(1000, 300), Color.White);
+            //spriteBatch.DrawString(fontSkali, "Wybrany tryb: " + MenuState.wybrany_tryb.ToString(), new Vector2(1000, 350), Color.White);
             //spriteBatch.DrawString(fontSkali, "Zajety kursor: " + zajety_kursor.ToString(), new Vector2(1000, 300), Color.White);
             //spriteBatch.DrawString(fontSkali, czas.ToString(), new Vector2(400, 200), Color.White);
             //spriteBatch.Draw(teksturaGryfu, hitboxTest, Color.White);

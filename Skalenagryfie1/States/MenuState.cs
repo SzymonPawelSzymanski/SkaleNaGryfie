@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Skalenagryfie1.Core;
+using Skalenagryfie1.Managers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Skalenagryfie1.Content.States
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private ContentManager _content;
         private List<Component> _components;
         public SpriteFont tytulStrony;
         private SpriteFont fontSkali;
@@ -30,10 +32,18 @@ namespace Skalenagryfie1.Content.States
         private Texture2D[] note_btns_2 = new Texture2D[MAX_NOTE_BTNS];
         private Rectangle[] note_btnRects = new Rectangle[MAX_NOTE_BTNS];
         private Rectangle[] note_btnRects_2 = new Rectangle[MAX_NOTE_BTNS];
+        private Color[] note_col = new Color[MAX_NOTE_BTNS];
+        private Color[] note_col_2 = new Color[MAX_NOTE_BTNS];
+        private Color tablicalosowo_col = Color.Yellow;
+        private int ktora_skala = 2;
+        private int ktory_przycisk = 13;
+        public static int wybrany_tryb; //-1 - losowo/ 0 - 11 dur/12 - 23 mol
+        public static string[] tab_wynikow = new string[10];
 
 
         internal override void LoadContent(ContentManager Content)
         {
+            this._content = Content;
             teksturaGryfu = Content.Load<Texture2D>("Tekstury/rysunek_gryf_1");
             tablicadur = Content.Load<Texture2D>("Tekstury/tablicadur");
             tablicamol = Content.Load<Texture2D>("Tekstury/tablicamol");
@@ -41,6 +51,8 @@ namespace Skalenagryfie1.Content.States
             fontSkali = Content.Load<SpriteFont>("Fonts/skalafont");
             const int INCREMENT = 150;
             const int INCREMENT_2 = 45;
+            wybrany_tryb = -1;
+
             for (int i=0; i < btns.Length; i++)
             {
                 btns[i] = Content.Load<Texture2D>($"Tekstury/btn{i+1}");
@@ -53,6 +65,13 @@ namespace Skalenagryfie1.Content.States
                 note_btns_2[i] = Content.Load<Texture2D>($"Tekstury/note_btn{i + 1}");
                 note_btnRects[i] = new Rectangle(110 - note_btns[i].Width / 2, 430 + INCREMENT_2 * i, note_btns[i].Width, note_btns[i].Height);
                 note_btnRects_2[i] = new Rectangle(220 - note_btns[i].Width / 2, 430 + INCREMENT_2 * i, note_btns[i].Width, note_btns[i].Height);
+                note_col[i] = Color.White;
+                note_col_2[i] = Color.White;
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                tab_wynikow[i] = " ";
             }
 
         }
@@ -65,6 +84,8 @@ namespace Skalenagryfie1.Content.States
             
             if(ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[0]))
             {
+                GameStateManager.gs = new GameState();
+                GameStateManager.gs.LoadContent(_content);
                 Data.CurrentState = Data.States.Game;
             }
             else if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[1]))
@@ -76,6 +97,54 @@ namespace Skalenagryfie1.Content.States
                 Data.Exit = true; ;
             }
 
+            if (msRect.Intersects(new Rectangle(380 - tablicalosowo.Width / 2, 385, tablicalosowo.Width, tablicalosowo.Height)))
+            {
+                if (ms.LeftButton == ButtonState.Pressed)
+                {
+                    tablicalosowo_col = Color.Yellow;
+                    ktora_skala = 2;
+                    ktory_przycisk = 13;
+                    wybrany_tryb = -1;
+                }
+            }
+
+            for (int i = 0; i < note_btns.Length; i++)
+            {
+                note_col[i] = Color.White;
+                note_col_2[i] = Color.White;
+
+                if (msRect.Intersects(note_btnRects[i]))
+                {
+                    if (ms.LeftButton == ButtonState.Pressed)
+                    {
+                        ktora_skala = 0;
+                        ktory_przycisk = i;
+                        tablicalosowo_col = Color.White;
+                        wybrany_tryb = i;
+                    }
+                }
+                else if (msRect.Intersects(note_btnRects_2[i]))
+                {
+                    if (ms.LeftButton == ButtonState.Pressed)
+                    {
+                        ktora_skala = 1;
+                        ktory_przycisk = i;
+                        tablicalosowo_col = Color.White;
+                        wybrany_tryb = i + 12;
+
+                    }
+                }
+
+                if (ktora_skala == 0 && ktory_przycisk == i)
+                {
+                    note_col[i] = Color.Yellow;
+                }
+                else if (ktora_skala == 1 && ktory_przycisk == i)
+                {
+                    note_col_2[i] = Color.Yellow;
+                }
+            }
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -83,15 +152,22 @@ namespace Skalenagryfie1.Content.States
 
             spriteBatch.Draw(teksturaGryfu, new Rectangle(35, -100, teksturaGryfu.Width, teksturaGryfu.Height), Color.White);
             spriteBatch.DrawString(fontSkali, "USTAWIENIA SKALI", new Vector2(80, 330), Color.White);
+            spriteBatch.DrawString(fontSkali, "TABLICA WYNIKOW", new Vector2(850, 330), Color.White);
+            //spriteBatch.DrawString(fontSkali, "Wybrany tryb: " +wybrany_tryb.ToString(), new Vector2(380, 330), Color.White);
             spriteBatch.Draw(tablicamol, new Rectangle(110 - tablicadur.Width/2, 385, tablicadur.Width, tablicadur.Height), Color.White);
             spriteBatch.Draw(tablicadur, new Rectangle(220 - tablicadur.Width/2, 385, tablicadur.Width, tablicadur.Height), Color.White);
-            spriteBatch.Draw(tablicalosowo, new Rectangle(380 - tablicalosowo.Width/2, 385, tablicalosowo.Width, tablicalosowo.Height), Color.White);
-            if(msRect.Intersects(new Rectangle(380 - tablicalosowo.Width / 2, 385, tablicalosowo.Width, tablicalosowo.Height)))
+            spriteBatch.Draw(tablicalosowo, new Rectangle(380 - tablicalosowo.Width/2, 385, tablicalosowo.Width, tablicalosowo.Height), tablicalosowo_col);
+
+            #region przycisk losowo hover
+
+            if (msRect.Intersects(new Rectangle(380 - tablicalosowo.Width / 2, 385, tablicalosowo.Width, tablicalosowo.Height)))
             {
                 spriteBatch.Draw(tablicalosowo, new Rectangle(380 - tablicalosowo.Width / 2, 385, tablicalosowo.Width, tablicalosowo.Height), Color.Gray);
-
             }
 
+            #endregion
+
+            #region przyciski menu
 
             for (int i = 0; i < 3; i++)
             {
@@ -102,19 +178,49 @@ namespace Skalenagryfie1.Content.States
                 }
             }
 
+            #endregion
+
+            #region przyciski ustawien nut
+
             for (int i = 0; i < note_btns.Length; i++)
             {
-                spriteBatch.Draw(note_btns[i], note_btnRects[i], Color.White);
-                spriteBatch.Draw(note_btns_2[i], note_btnRects_2[i], Color.White);
-                if (msRect.Intersects(note_btnRects[i]))
+                note_col[i] = Color.White;
+                note_col_2[i] = Color.White;
+
+                if (ktora_skala == 0 && ktory_przycisk == i)
                 {
-                    spriteBatch.Draw(note_btns[i], note_btnRects[i], Color.Gray);
+                    note_col[i] = Color.Yellow;
+                }
+                else if (ktora_skala == 1 && ktory_przycisk == i)
+                {
+                    note_col_2[i] = Color.Yellow;
+                }
+
+                spriteBatch.Draw(note_btns[i], note_btnRects[i], note_col[i]);
+                spriteBatch.Draw(note_btns_2[i], note_btnRects_2[i], note_col_2[i]);
+                if (msRect.Intersects(note_btnRects[i]))
+                { 
+                    spriteBatch.Draw(note_btns[i], note_btnRects[i], Color.Gray); 
                 }
                 else if (msRect.Intersects(note_btnRects_2[i]))
                 {
-                    spriteBatch.Draw(note_btns_2[i], note_btnRects_2[i], Color.Gray);
+                    spriteBatch.Draw(note_btns_2[i], note_btnRects_2[i], Color.Gray); 
                 }
+
+
             }
+
+            #endregion
+
+
+            #region tablica wynikow - wyniki
+
+            for (int i = 0; i < 10; i++)
+            {
+                spriteBatch.DrawString(fontSkali, $"{i+1}. " + tab_wynikow[i], new Vector2(980, 385+i*45), Color.White);
+            }
+
+            #endregion
 
             //dopisz zmiane kolorow jak zaznaczysz ustawienie na glownym ekranie
 

@@ -13,71 +13,370 @@ namespace Skalenagryfie1.Content.States
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private List<Component> _components;
+        private ContentManager _content;
+        private Texture2D instrukcja;
+
+        private double timer = 0;
+        private String czas;
         public SpriteFont tytulStrony;
         private MouseState ms, oldMs;
         private Rectangle msRect;
         private Texture2D teksturaGryfu;
-        private const int MAX_BTNS = 3;
+        private Texture2D teksturaNuty;
+        private Texture2D teksturaBoxa;
+        private Texture2D wongamescreen;
+        private SpriteFont fontNuty;
+        private SpriteFont fontSkali;
+        private String nazwaSkali;
+        private int los;
+        private int los_2;
+        private int wynik = 0;
+        private int wygrana_gra = 0;
+        private bool wygrana_bool;
+        //private int zajety_kursor = 0;
+        private Random rand = new Random();
+        const int INCREMENT = 130;
+        const int INCREMENT_N = 70;
+        private const int MAX_BTNS = 5;
+        private const int MAX_NOTES = 5;
+        private const int MAX_SCALES = 12;
         private Texture2D[] btns = new Texture2D[MAX_BTNS];
         private Rectangle[] btnRects = new Rectangle[MAX_BTNS];
+        private Texture2D[] nuty = new Texture2D[MAX_NOTES];
+        private Rectangle[] nutyRects = new Rectangle[MAX_NOTES];
+        private String[] nutyText = new String[MAX_NOTES];
+        private String trzymana_nuta = "NIC YET";
+        private String kolejnoscnuta = "NIC YET";
+        private Color kolornuty = Color.White;
+        private Color[] kolNut = new Color[MAX_NOTES];
+        private String[] rozwNuty = new String[MAX_NOTES];
+        private bool[] boolNuty = new bool[MAX_NOTES];
+        private Rectangle[] interRects = new Rectangle[MAX_NOTES];
+        private Skala_pentatoniczna[] molPent = new Skala_pentatoniczna[MAX_SCALES];
+        private Skala_pentatoniczna[] durPent = new Skala_pentatoniczna[MAX_SCALES];
+        private Skala_pentatoniczna obecna_skala;
+        private Rectangle hitboxTest;
+        public bool reset;
+        private int wybor;
+        private int skala;
+
+
 
 
         internal override void LoadContent(ContentManager Content)
         {
+            this._content = Content;
+            instrukcja = Content.Load<Texture2D>("Tekstury/instrukcja");
+
             teksturaGryfu = Content.Load<Texture2D>("Tekstury/gryfBasowy1000");
+            teksturaGryfu = Content.Load<Texture2D>("Tekstury/rysunek_gryf_1");
+            wongamescreen = Content.Load<Texture2D>("Tekstury/wongamescreen");
+            teksturaNuty = Content.Load<Texture2D>("Tekstury/tlonutki40");
+            teksturaBoxa = Content.Load<Texture2D>("Tekstury/pudelko_nut_2");
+            fontNuty = Content.Load<SpriteFont>("Fonts/nutkafont");
+            fontSkali = Content.Load<SpriteFont>("Fonts/skalafont");
+
+            #region Stworzenie_pentatonik
+            //STWORZENIE PENTATONIK MOLOWYCH
+            var e_pent_mol = new Skala_pentatoniczna();
+            var f_pent_mol = new Skala_pentatoniczna();
+            var fis_pent_mol = new Skala_pentatoniczna();
+            var g_pent_mol = new Skala_pentatoniczna();
+            var gis_pent_mol = new Skala_pentatoniczna();
+            var a_pent_mol = new Skala_pentatoniczna();
+            var ais_pent_mol = new Skala_pentatoniczna();
+            var h_pent_mol = new Skala_pentatoniczna();
+            var c_pent_mol = new Skala_pentatoniczna();
+            var cis_pent_mol = new Skala_pentatoniczna();
+            var d_pent_mol = new Skala_pentatoniczna();
+            var dis_pent_mol = new Skala_pentatoniczna();
+
+            e_pent_mol.nazwa_skali = "Skala E mol Pentatoniczna";
+            f_pent_mol.nazwa_skali = "Skala F mol Pentatoniczna";
+            fis_pent_mol.nazwa_skali = "Skala Fis mol Pentatoniczna";
+            g_pent_mol.nazwa_skali = "Skala G mol Pentatoniczna";
+            gis_pent_mol.nazwa_skali = "Skala Gis mol Pentatoniczna";
+            a_pent_mol.nazwa_skali = "Skala A mol Pentatoniczna";
+            ais_pent_mol.nazwa_skali = "Skala Ais mol Pentatoniczna";
+            h_pent_mol.nazwa_skali = "Skala H mol Pentatoniczna";
+            c_pent_mol.nazwa_skali = "Skala C mol Pentatoniczna";
+            cis_pent_mol.nazwa_skali = "Skala Cis mol Pentatoniczna";
+            d_pent_mol.nazwa_skali = "Skala D mol Pentatoniczna";
+            dis_pent_mol.nazwa_skali = "Skala Dis mol Pentatoniczna";
+
+            e_pent_mol.wypelnij_skale("E", "G", "A", "H", "D");
+            f_pent_mol.wypelnij_skale("F", "Gis", "Ais", "C", "Dis");
+            fis_pent_mol.wypelnij_skale("Fis", "A", "H", "Cis", "E");
+            g_pent_mol.wypelnij_skale("G", "Ais", "C", "D", "F");
+            gis_pent_mol.wypelnij_skale("Gis", "B", "Cis", "Dis", "Fis");
+            a_pent_mol.wypelnij_skale("A", "C", "D", "E", "G");
+            ais_pent_mol.wypelnij_skale("Ais", "Cis", "Dis", "F", "Gis");
+            h_pent_mol.wypelnij_skale("H", "D", "E", "Fis", "A");
+            c_pent_mol.wypelnij_skale("C", "Dis", "F", "G", "Ais");
+            cis_pent_mol.wypelnij_skale("Cis", "E", "Fis", "Gis", "H");
+            d_pent_mol.wypelnij_skale("D", "F", "G", "A", "C");
+            dis_pent_mol.wypelnij_skale("Dis", "Fis", "Gis", "Ais", "Cis");
+
+            //STWORZENIE PENTATONIK DUROWYCH
+            var e_pent_dur = new Skala_pentatoniczna();
+            var f_pent_dur = new Skala_pentatoniczna();
+            var fis_pent_dur = new Skala_pentatoniczna();
+            var g_pent_dur = new Skala_pentatoniczna();
+            var gis_pent_dur = new Skala_pentatoniczna();
+            var a_pent_dur = new Skala_pentatoniczna();
+            var ais_pent_dur = new Skala_pentatoniczna();
+            var h_pent_dur = new Skala_pentatoniczna();
+            var c_pent_dur = new Skala_pentatoniczna();
+            var cis_pent_dur = new Skala_pentatoniczna();
+            var d_pent_dur = new Skala_pentatoniczna();
+            Skala_pentatoniczna dis_pent_dur = new Skala_pentatoniczna();
+
+            e_pent_dur.nazwa_skali = "Skala E dur Pentatoniczna";
+            f_pent_dur.nazwa_skali = "Skala F dur Pentatoniczna";
+            fis_pent_dur.nazwa_skali = "Skala Fis dur Pentatoniczna";
+            g_pent_dur.nazwa_skali = "Skala G dur Pentatoniczna";
+            gis_pent_dur.nazwa_skali = "Skala Gis dur Pentatoniczna";
+            a_pent_dur.nazwa_skali = "Skala A dur Pentatoniczna";
+            ais_pent_dur.nazwa_skali = "Skala Ais dur Pentatoniczna";
+            h_pent_dur.nazwa_skali = "Skala H dur Pentatoniczna";
+            c_pent_dur.nazwa_skali = "Skala C dur Pentatoniczna";
+            cis_pent_dur.nazwa_skali = "Skala Cis dur Pentatoniczna";
+            d_pent_dur.nazwa_skali = "Skala D dur Pentatoniczna";
+            dis_pent_dur.nazwa_skali = "Skala Dis dur Pentatoniczna";
+            //dis_pent_dur.nazwa_skali = "Skala Dis dur Pentatoniczna";
+
+
+            e_pent_dur.wypelnij_skale("E", "Fis", "Gis", "H", "Cis");
+            f_pent_dur.wypelnij_skale("F", "G", "A", "C", "D");
+            fis_pent_dur.wypelnij_skale("Fis", "Gis", "Ais", "Cis", "Dis");
+            g_pent_dur.wypelnij_skale("G", "A", "H", "D", "E");
+            gis_pent_dur.wypelnij_skale("Gis", "Ais", "C", "Dis", "F");
+            a_pent_dur.wypelnij_skale("A", "H", "Cis", "E", "Fis");
+            ais_pent_dur.wypelnij_skale("Ais", "C", "D", "F", "G");
+            h_pent_dur.wypelnij_skale("H", "Cis", "Dis", "Fis", "Gis");
+            c_pent_dur.wypelnij_skale("C", "D", "E", "G", "A");
+            cis_pent_dur.wypelnij_skale("Cis", "Dis", "F", "Gis", "Ais");
+            d_pent_dur.wypelnij_skale("D", "E", "Fis", "A", "H");
+            dis_pent_dur.wypelnij_skale("Dis", "F", "G", "Ais", "C");
+            #endregion
+
+            #region wypelnienie tablicy skal
+            molPent[0] = e_pent_mol;
+            molPent[1] = f_pent_mol;
+            molPent[2] = fis_pent_mol;
+            molPent[3] = g_pent_mol;
+            molPent[4] = gis_pent_mol;
+            molPent[5] = a_pent_mol;
+            molPent[6] = ais_pent_mol;
+            molPent[7] = h_pent_mol;
+            molPent[8] = c_pent_mol;
+            molPent[9] = cis_pent_mol;
+            molPent[10] = d_pent_mol;
+            molPent[11] = dis_pent_mol;
+
+            durPent[0] = e_pent_dur;
+            durPent[1] = f_pent_dur;
+            durPent[2] = fis_pent_dur;
+            durPent[3] = g_pent_dur;
+            durPent[4] = gis_pent_dur;
+            durPent[5] = a_pent_dur;
+            durPent[6] = ais_pent_dur;
+            durPent[7] = h_pent_dur;
+            durPent[8] = c_pent_dur;
+            durPent[9] = cis_pent_dur;
+            durPent[10] = d_pent_dur;
+            durPent[11] = dis_pent_dur;
+            #endregion
+
+            #region Wypelnienie wspolrzednych i rozmiarow hitboxow - MOL
+
+            e_pent_mol.wypelnij_inf(1, 21, 514, 48, 38);
+            e_pent_mol.wypelnij_inf(2, 266, 514, 103, 45);
+            e_pent_mol.wypelnij_inf(3, 21, 459, 48, 54);
+            e_pent_mol.wypelnij_inf(4, 162, 461, 103, 53);
+            e_pent_mol.wypelnij_inf(5, 21, 409, 48, 51);//
+
+            f_pent_mol.wypelnij_inf(1, 70, 514, 91, 40);
+            f_pent_mol.wypelnij_inf(2, 370, 516, 93, 46);
+            f_pent_mol.wypelnij_inf(3, 70, 459, 91, 55);
+            f_pent_mol.wypelnij_inf(4, 266, 458, 103, 56);
+            f_pent_mol.wypelnij_inf(5, 70, 409, 91, 51);//
+
+            fis_pent_mol.wypelnij_inf(1, 162, 514, 103, 42);
+            fis_pent_mol.wypelnij_inf(2, 464, 519, 89, 46);
+            fis_pent_mol.wypelnij_inf(3, 162, 461, 103, 53);
+            fis_pent_mol.wypelnij_inf(4, 370, 459, 93, 57);
+            fis_pent_mol.wypelnij_inf(5, 162, 407, 103, 54);//
+
+            g_pent_mol.wypelnij_inf(1, 266, 514, 103, 45);
+            g_pent_mol.wypelnij_inf(2, 554, 520, 85, 49);
+            g_pent_mol.wypelnij_inf(3, 266, 458, 103, 56);
+            g_pent_mol.wypelnij_inf(4, 464, 459, 89, 59);
+            g_pent_mol.wypelnij_inf(5, 266, 405, 103, 52);//
+
+            gis_pent_mol.wypelnij_inf(1, 370, 516, 93, 46);
+            gis_pent_mol.wypelnij_inf(2, 640, 521, 80, 50);
+            gis_pent_mol.wypelnij_inf(3, 370, 459, 93, 57);
+            gis_pent_mol.wypelnij_inf(4, 554, 459, 85, 61);
+            gis_pent_mol.wypelnij_inf(5, 370, 402, 93, 56);//
+
+            a_pent_mol.wypelnij_inf(1, 464, 519, 89, 46);
+            a_pent_mol.wypelnij_inf(2, 721, 521, 72, 50);
+            a_pent_mol.wypelnij_inf(3, 464, 459, 89, 59);
+            a_pent_mol.wypelnij_inf(4, 640, 460, 80, 61);
+            a_pent_mol.wypelnij_inf(5, 464, 402, 89, 56);//
+
+            ais_pent_mol.wypelnij_inf(1, 554, 520, 85, 49);
+            ais_pent_mol.wypelnij_inf(2, 794, 524, 73, 51);
+            ais_pent_mol.wypelnij_inf(3, 554, 459, 85, 61);
+            ais_pent_mol.wypelnij_inf(4, 721, 458, 72, 66);
+            ais_pent_mol.wypelnij_inf(5, 554, 402, 85, 56);//
+
+            h_pent_mol.wypelnij_inf(1, 640, 521, 80, 50);
+            h_pent_mol.wypelnij_inf(2, 868, 524, 65, 51);
+            h_pent_mol.wypelnij_inf(3, 640, 460, 80, 61);
+            h_pent_mol.wypelnij_inf(4, 794, 458, 73, 66);
+            h_pent_mol.wypelnij_inf(5, 640, 409, 80, 51);// 
+
+            c_pent_mol.wypelnij_inf(1, 721, 521, 72, 50);
+            c_pent_mol.wypelnij_inf(2, 934, 524, 63, 53);
+            c_pent_mol.wypelnij_inf(3, 721, 458, 72, 66);
+            c_pent_mol.wypelnij_inf(4, 868, 458, 65, 66);
+            c_pent_mol.wypelnij_inf(5, 721, 396, 72, 62);//
+
+            cis_pent_mol.wypelnij_inf(1, 794, 524, 73, 51);
+            cis_pent_mol.wypelnij_inf(2, 998, 527, 61, 53);
+            cis_pent_mol.wypelnij_inf(3, 794, 458, 73, 66);
+            cis_pent_mol.wypelnij_inf(4, 934, 457, 63, 70);
+            cis_pent_mol.wypelnij_inf(5, 794, 396, 73, 62);//
+
+            d_pent_mol.wypelnij_inf(1, 868, 524, 65, 51);
+            d_pent_mol.wypelnij_inf(2, 1060, 527, 56, 55);
+            d_pent_mol.wypelnij_inf(3, 868, 458, 65, 66);
+            d_pent_mol.wypelnij_inf(4, 998, 457, 61, 70);
+            d_pent_mol.wypelnij_inf(5, 868, 393, 65, 65);//
+
+            dis_pent_mol.wypelnij_inf(1, 934, 524, 63, 53);
+            dis_pent_mol.wypelnij_inf(2, 117, 527, 52, 57);
+            dis_pent_mol.wypelnij_inf(3, 934, 457, 63, 70);
+            dis_pent_mol.wypelnij_inf(4, 1060, 457, 56, 70);
+            dis_pent_mol.wypelnij_inf(5, 934, 386, 63, 72);//
+
+            #endregion
+
+            #region Wypelnienie wspolrzednych i rozmiarow hitboxow - DUR
+
+            e_pent_dur.wypelnij_inf(1, 21, 514, 48, 38);
+            e_pent_dur.wypelnij_inf(2, 162, 514, 103, 42);
+            e_pent_dur.wypelnij_inf(3, 370, 516, 93, 46);
+            e_pent_dur.wypelnij_inf(4, 162, 461, 103, 53);
+            e_pent_dur.wypelnij_inf(5, 370, 459, 93, 57);//
+
+            f_pent_dur.wypelnij_inf(1, 70, 514, 91, 40);
+            f_pent_dur.wypelnij_inf(2, 266, 514, 103, 45);
+            f_pent_dur.wypelnij_inf(3, 464, 519, 89, 46);
+            f_pent_dur.wypelnij_inf(4, 266, 458, 103, 56);
+            f_pent_dur.wypelnij_inf(5, 464, 459, 89, 59);//
+
+            fis_pent_dur.wypelnij_inf(1, 162, 514, 103, 42);
+            fis_pent_dur.wypelnij_inf(2, 370, 516, 93, 46);
+            fis_pent_dur.wypelnij_inf(3, 554, 520, 85, 49);
+            fis_pent_dur.wypelnij_inf(4, 370, 459, 93, 57);
+            fis_pent_dur.wypelnij_inf(5, 554, 459, 85, 61);//
+
+            g_pent_dur.wypelnij_inf(1, 266, 514, 103, 45);
+            g_pent_dur.wypelnij_inf(2, 464, 519, 89, 46);
+            g_pent_dur.wypelnij_inf(3, 640, 521, 80, 50);
+            g_pent_dur.wypelnij_inf(4, 464, 459, 89, 59);
+            g_pent_dur.wypelnij_inf(5, 640, 460, 80, 61);//
+
+            gis_pent_dur.wypelnij_inf(1, 370, 516, 93, 46);
+            gis_pent_dur.wypelnij_inf(2, 554, 520, 85, 49);
+            gis_pent_dur.wypelnij_inf(3, 721, 521, 72, 50);
+            gis_pent_dur.wypelnij_inf(4, 554, 459, 85, 61);
+            gis_pent_dur.wypelnij_inf(5, 721, 458, 72, 66);//
+
+            a_pent_dur.wypelnij_inf(1, 464, 519, 89, 46);
+            a_pent_dur.wypelnij_inf(2, 640, 521, 80, 50);
+            a_pent_dur.wypelnij_inf(3, 794, 524, 73, 51);
+            a_pent_dur.wypelnij_inf(4, 640, 460, 80, 61);
+            a_pent_dur.wypelnij_inf(5, 794, 458, 73, 66);//
+
+            ais_pent_dur.wypelnij_inf(1, 554, 520, 85, 49);
+            ais_pent_dur.wypelnij_inf(2, 721, 521, 72, 50);
+            ais_pent_dur.wypelnij_inf(3, 868, 524, 65, 51);
+            ais_pent_dur.wypelnij_inf(4, 721, 458, 72, 66);
+            ais_pent_dur.wypelnij_inf(5, 868, 458, 65, 66);//
+
+            h_pent_dur.wypelnij_inf(1, 640, 521, 80, 50);
+            h_pent_dur.wypelnij_inf(2, 794, 524, 73, 51);
+            h_pent_dur.wypelnij_inf(3, 934, 524, 63, 53);
+            h_pent_dur.wypelnij_inf(4, 794, 458, 73, 66);
+            h_pent_dur.wypelnij_inf(5, 934, 457, 63, 70);//
+
+            c_pent_dur.wypelnij_inf(1, 721, 521, 72, 50);
+            c_pent_dur.wypelnij_inf(2, 868, 524, 65, 51);
+            c_pent_dur.wypelnij_inf(3, 998, 527, 61, 53);
+            c_pent_dur.wypelnij_inf(4, 868, 458, 65, 66);
+            c_pent_dur.wypelnij_inf(5, 998, 457, 61, 70);//
+
+            cis_pent_dur.wypelnij_inf(1, 794, 524, 73, 51);
+            cis_pent_dur.wypelnij_inf(2, 934, 524, 63, 53);
+            cis_pent_dur.wypelnij_inf(3, 1060, 527, 56, 55);
+            cis_pent_dur.wypelnij_inf(4, 934, 457, 63, 70);
+            cis_pent_dur.wypelnij_inf(5, 1060, 457, 56, 70);//
+
+            d_pent_dur.wypelnij_inf(1, 868, 524, 65, 51);
+            d_pent_dur.wypelnij_inf(2, 998, 527, 61, 53);
+            d_pent_dur.wypelnij_inf(3, 1117, 527, 52, 57);
+            d_pent_dur.wypelnij_inf(4, 998, 457, 61, 70);
+            d_pent_dur.wypelnij_inf(5, 1117, 457, 52, 70);//
+
+            dis_pent_dur.wypelnij_inf(1, 934, 524, 63, 53);
+            dis_pent_dur.wypelnij_inf(2, 1060, 527, 56, 55);
+            dis_pent_dur.wypelnij_inf(3, 1170, 527, 53, 59);
+            dis_pent_dur.wypelnij_inf(4, 1060, 457, 56, 70);
+            dis_pent_dur.wypelnij_inf(5, 1170, 457, 53, 70);//
+            #endregion
+
+            #region Wypelnienie kolorow nut
+            kolNut[0] = Color.White;
+            kolNut[1] = Color.White;
+            kolNut[2] = Color.White;
+            kolNut[3] = Color.White;
+            kolNut[4] = Color.White;
+            #endregion
+
+            for (int i = 0; i < btns.Length; i++)
+            {
+                btns[i] = Content.Load<Texture2D>($"Tekstury/btn{i + 1}");
+                btnRects[i] = new Rectangle(1060, 600 + INCREMENT * i, btns[i].Width, btns[i].Height);
+            }
+
+            if (los == 0)
+            {
+                obecna_skala = molPent[los_2];
+                nazwaSkali = molPent[los_2].nazwa_skali;
+                for (int i = 0; i < nuty.Length; i++)
+                {
+                    nuty[i] = Content.Load<Texture2D>("Tekstury/tlonutki40");
+                    nutyRects[i] = new Rectangle(120 + INCREMENT_N * i, 800, nuty[i].Width, nuty[i].Height);
+                    nutyText[i] = molPent[los_2].tab_nut[i];
+                }
+            }
+            else if (los == 1)
+            {
+                obecna_skala = durPent[los_2];
+                nazwaSkali = durPent[los_2].nazwa_skali;
+                for (int i = 0; i < nuty.Length; i++)
+                {
+                    nuty[i] = Content.Load<Texture2D>("Tekstury/tlonutki40");
+                    nutyRects[i] = new Rectangle(120 + INCREMENT_N * i, 800, nuty[i].Width, nuty[i].Height);
+                    nutyText[i] = durPent[los_2].tab_nut[i];
+                }
+            }
+
         }
-
-        //public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
-        //{
-        //var tytulStrony = content.Load<SpriteFont>("galleryFont");
-        //var buttonTexture = content.Load<Texture2D>("przycisk");
-        // var buttonFont = content.Load<SpriteFont>("buttonfont");
-
-        /*var newGameButton = new Button(buttonTexture, buttonFont)
-        {
-            Position = new Vector2(560, 300),
-            Text = "Nowa Gra"
-        };
-
-        var howtoGameButton = new Button(buttonTexture, buttonFont)
-        {
-            Position = new Vector2(560, 400),
-            Text = "Jak grac"
-        };
-
-        var quitGameButton = new Button(buttonTexture, buttonFont)
-        {
-            Position = new Vector2(560, 500),
-            Text = "Wyjdz z gry"
-        };
-
-
-        newGameButton.Click += NewGameButton_Click;
-        howtoGameButton.Click += HowtoGameButton_Click;
-        quitGameButton.Click += QuitGameButton_Click;
-
-        _components = new List<Component>()
-        {
-            newGameButton,
-            howtoGameButton,
-            quitGameButton
-        };*/
-        //}
-
-        /*private void HowtoGameButton_Click(object sender, EventArgs e)
-        {
-            _game.ChangeState(new HowToState(_game, graphicsDevice, content));
-        }
-
-        private void NewGameButton_Click(object sender, EventArgs e)
-        {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
-        }
-        private void QuitGameButton_Click(object sender, EventArgs e)
-        {
-            _game.Exit();
-        } */
 
         public override void Update(GameTime gameTime)
         {
@@ -85,126 +384,25 @@ namespace Skalenagryfie1.Content.States
             ms = Mouse.GetState();
             msRect = new Rectangle(ms.X, ms.Y, 1, 1);
 
-            if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[0]))
+            if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[2]))
             {
-                Data.CurrentState = Data.States.Game;
-            }
-            else if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[1]))
-            {
-                Data.CurrentState = Data.States.Howto2;
-            }
-            else if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[2]))
-            {
-                Data.Exit = true; ;
+                Data.CurrentState = Data.States.Menu;
             }
 
-            //foreach (var component in _components)
-            //   component.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Begin();
-            //tytul strony nie dziala\/
-            //spriteBatch.DrawString(tytulStrony, "SKALE NA GRYFIE", new Vector2(320,50), Color.White);
+            spriteBatch.Draw(instrukcja, new Rectangle(35, 20, instrukcja.Width, instrukcja.Height), Color.White);
+            spriteBatch.Draw(btns[4], btnRects[2], Color.White);
 
-            for (int i = 0; i < btns.Length; i++)
+            if (msRect.Intersects(btnRects[2]))
             {
-                spriteBatch.Draw(teksturaGryfu, new Rectangle(100, 500, teksturaGryfu.Width, teksturaGryfu.Height), Color.White);
+                spriteBatch.Draw(btns[4], btnRects[2], Color.Gray);
             }
-
-            //foreach (var component in _components)
-            //   component.Draw(spriteBatch);
-
-            //spriteBatch.End();
+            
         }
     }
 }
 
 
-
-/*using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Skalenagryfie1.Content.States
-{
-    internal class GameState : Component
-    {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        private List<Component> _components;
-        /*public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
-        {
-            var teksturaGryfu = content.Load<Texture2D>("Tekstury/gryfBasowy1200");
-            var teksturaNutki = content.Load<Texture2D>("Tekstury/tlonutki40");
-            var fontNutki = content.Load<SpriteFont>("nutkafont");
-
-            var mainGryf = new Bassgryf(teksturaGryfu)
-            {
-                gPosition = new Vector2(30, 400)
-            };
-
-            var nutka1 = new Nutka(teksturaNutki, fontNutki)
-            {
-                nPosition = new Vector2(150, 600),
-                Text = "E",
-            };
-
-            var nutka2 = new Nutka(teksturaNutki, fontNutki)
-            {
-                nPosition = new Vector2(200, 600),
-                Text = "G",
-            };
-
-            var nutka3 = new Nutka(teksturaNutki, fontNutki)
-            {
-                nPosition = new Vector2(250, 600),
-                Text = "A",
-            };
-
-            var nutka4 = new Nutka(teksturaNutki, fontNutki)
-            {
-                nPosition = new Vector2(300, 600),
-                Text = "B",
-            };
-
-            var nutka5 = new Nutka(teksturaNutki, fontNutki)
-            {
-                nPosition = new Vector2(350, 600),
-                Text = "D",
-            };
-
-            _components = new List<Component>()
-            {
-                mainGryf,
-                nutka1,
-                nutka2,
-                nutka3,
-                nutka4,
-                nutka5,
-            };
-        }*/
-/*
-        internal override void LoadContent(ContentManager Content)
-        {
-            
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            //foreach (var component in _components)
-            //    component.Draw(spriteBatch);
-        }
-
-
-        public override void Update(GameTime gameTime)
-        {
-            //foreach (var component in _components)
-             //   component.Update(gameTime);
-        }
-    }
-}*/
