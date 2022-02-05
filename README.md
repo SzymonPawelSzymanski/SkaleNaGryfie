@@ -1,5 +1,5 @@
 # Skalenagryfie1
- is a university project I've written using C# Framework Monogame.
+ is a university project I've written using C# Framework Monogame and its target Framework is netcoreapp3.1.
  It'a simple drag&drop game that helps you learn the placement of the notes on the fretboard of the bass guitar.
  
  
